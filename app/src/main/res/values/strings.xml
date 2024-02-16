@@ -2,7 +2,7 @@
     <string name="app_name">PLCDiplomovka</string>
     <string name="ip_adresa">IP Adresa</string>
     <string name="diplomovka">Diplomovka</string>
-    <string name="pripoji">Pripojiť</string>
+    <string name="edit_values">Dalšia strana</string>
     <string name="write">Write</string>
     <string name="read">Read</string>
     <string name="odpoji">Odpojiť</string>
