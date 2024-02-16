@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="196dp"
-        android:layout_height="78dp"
+        android:layout_width="190dp"
+        android:layout_height="48dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/diplomovka"
         android:textSize="34sp"
@@ -22,11 +22,11 @@
         app:layout_constraintVertical_bias="0.024" />
 
     <Button
-        android:id="@+id/buttonConIP"
+        android:id="@+id/buttonNextPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/pripoji"
+        android:text="@string/edit_values"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
@@ -41,8 +41,7 @@
         android:text="@string/read"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout3"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
@@ -50,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/buttonConIP">
+        app:layout_constraintTop_toBottomOf="@+id/buttonNextPage">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/TextInputReadValue"
@@ -157,11 +156,11 @@
             android:text="0" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Switch
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/SwitchRead"
-        android:layout_width="190dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="135dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
         android:text="ReadLoop"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,6 +181,7 @@
             android:hint="Zapisovaná hodnota" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -193,7 +193,6 @@
         app:layout_constraintStart_toEndOf="@+id/textInputLayout6"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout6" />
 
-
     <TextView
         android:id="@+id/ErrorText"
         android:layout_width="wrap_content"
@@ -204,6 +203,6 @@
         app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
-        app:layout_constraintVertical_bias="0.265" />
+        app:layout_constraintVertical_bias="0.192" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
