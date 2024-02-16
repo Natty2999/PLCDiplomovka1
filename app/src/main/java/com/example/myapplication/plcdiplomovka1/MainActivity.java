@@ -2,13 +2,16 @@ package com.example.myapplication.plcdiplomovka1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.os.CountDownTimer;
 import android.widget.TextView;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import android.widget.Toast;
 
 import Moka7.*;
@@ -20,8 +23,9 @@ import Moka7.*;
 //TODO pridat uchovanie fungujucich IP adries s moznostou pomenovania a vyberu z listu
 
 public class MainActivity extends AppCompatActivity {
-public String stringValue ="";
-    private Switch switchRead;
+    public String stringValue ="";
+    private Button buttonNextPage;
+    private MaterialSwitch switchRead;
     private EditText textInputDBNumber;
     private EditText textInputDBOffset;
     private EditText textInputDBBit;
@@ -37,6 +41,7 @@ public String stringValue ="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
         switchRead = findViewById(R.id.SwitchRead);
         textInputDBNumber = findViewById(R.id.TextInputDBNumber);
         textInputDBOffset = findViewById(R.id.TextInputDBOffset);
@@ -44,7 +49,12 @@ public String stringValue ="";
         textInputIPAddress = findViewById(R.id.TextInputIPAddress);
         textInputWriteValue = findViewById(R.id.TextInputWriteValue);
         errorText = findViewById(R.id.ErrorText);
-
+        buttonNextPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivityVytahOvladanie();
+            }
+        });
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 startCountdown();
@@ -54,6 +64,10 @@ public String stringValue ="";
             }
         });
     }
+    public void openActivityVytahOvladanie(){
+        Intent intent = new Intent(this, MainActivityVytahOvladanie.class);
+        startActivity(intent);
+    }
     private void startCountdown() {
         cancelCountdown(); // Cancel any existing countdown
         countDownTimer = new CountDownTimer(10000, 100) {
@@ -61,13 +75,13 @@ public String stringValue ="";
             public void onTick(long millisUntilFinished) {
                 // Update UI with current count
                 new PlcReader().execute();
-                System.out.println("Countdown: " + counter);
+                //System.out.println("Countdown: " + counter);
                 counter--;
             }
 
             @Override
             public void onFinish() {
-                System.out.println("Countdown finished");
+                //System.out.println("Countdown finished");
                 counter = 100; // Reset counter
                 switchRead.setChecked(false); // Turn off the switch after countdown finishes
             }
@@ -86,48 +100,10 @@ public String stringValue ="";
     public void readDB(View view){
         new PlcReader().execute();
     }
-    public void readDB2(View view){
-        String ret = "";
-        try{
-        client.SetConnectionType(S7.S7_BASIC);
-        int res = client.ConnectTo("192.168.0.138",0,2);// ak je S7-300 tak je vždy 0,2
-        if(res == 0){//ak je 0 tak je pripojenie úspešné
-            //stringValue += "Connected" + "\n";
-            byte[] data = new byte[1];
-            res = client.ReadArea(S7.S7AreaDB,1,0,1,data);
-            ret = String.valueOf(S7.GetBitAt(data,0,0));
-        }else{
-            //stringValue += "res == " + res + "\n";
-            ret = "Error: " + S7Client.ErrorText(res);
-        }
-        client.Disconnect();
-    }catch (Exception e){
-        ret = e.getMessage();
-        Thread.interrupted();
-    }
-        EditText textInputReadValue = (EditText) findViewById(R.id.TextInputReadValue);
-        textInputReadValue.setText(ret);
-    }
-    public void readDBContinuous(View view){
-        int i = 0;
-        String ret;
-        EditText textInputReadValue = (EditText) findViewById(R.id.TextInputReadValue);
-        System.out.println(switchRead.isChecked());
-        while (switchRead.isChecked() && i < 30){
-            System.out.println(i + " " + switchRead.isChecked());
-            if(!switchRead.isChecked()){
-                System.out.println("break");
-                break;
-            }
-            i += 1;
-            textInputReadValue.setText(i + " " + switchRead.isChecked());
 
-            //new PlcReader().execute();
-
-        }
-    }
     private class PlcReader extends AsyncTask<String,Void,String> {
         String ret = "";
+
         @Override
         protected String doInBackground(String... params) {
             try{
@@ -136,9 +112,9 @@ public String stringValue ="";
                 String ipAddress = textInputIPAddress.getText().toString();
 
 
-                Integer dbNumber = Integer.parseInt(textInputDBNumber.getText().toString());
-                Integer dbOffset = Integer.parseInt(textInputDBOffset.getText().toString());
-                Integer dbBit = Integer.parseInt(textInputDBBit.getText().toString());
+                int dbNumber = Integer.parseInt(textInputDBNumber.getText().toString());
+                int dbOffset = Integer.parseInt(textInputDBOffset.getText().toString());
+                int dbBit = Integer.parseInt(textInputDBBit.getText().toString());
 
                 int res = client.ConnectTo(ipAddress,0,2);// ak je S7-300 tak je vždy 0,2
 
@@ -199,15 +175,15 @@ public String stringValue ="";
                 client.SetConnectionType(S7.S7_BASIC);
                 boolean writeValue;
                 String ipAddress = textInputIPAddress.getText().toString();
-                Integer dbNumber = Integer.parseInt(textInputDBNumber.getText().toString());
-                Integer dbOffset = Integer.parseInt(textInputDBOffset.getText().toString());
-                Integer dbBit = Integer.parseInt(textInputDBBit.getText().toString());
+                int dbNumber = Integer.parseInt(textInputDBNumber.getText().toString());
+                int dbOffset = Integer.parseInt(textInputDBOffset.getText().toString());
+                int dbBit = Integer.parseInt(textInputDBBit.getText().toString());
                 boolean isWriteValueValid = textInputWriteValue.getText().toString().equalsIgnoreCase("true")
                             || textInputWriteValue.getText().toString().equalsIgnoreCase("false")
                             || textInputWriteValue.getText().toString().equals("0")
                             || textInputWriteValue.getText().toString().equals("1");
                 if (!isWriteValueValid) {
-                    ret = "Error: Write value must be a boolean or 0 or 1";
+                    ret = "Chyba: Hodnota na zápis musí byť boolean alebo 0 alebo 1";
                     return "executed";
                 }else{
                    writeValue = textInputWriteValue.getText().toString().equalsIgnoreCase("true")
@@ -223,7 +199,17 @@ public String stringValue ="";
                         S7.SetBitAt(data, 0, dbBit, writeValue);
                         res = client.WriteArea(S7.S7AreaDB, dbNumber, dbOffset, 1, data);
                         if (res == 0) {
-                            ret = "Write successful";
+                            res = client.ReadArea(S7.S7AreaDB,dbNumber,dbOffset,1,data);
+                            if (res == 0) {
+                                ret = String.valueOf(S7.GetBitAt(data,0,dbBit));
+                                if (ret.equalsIgnoreCase(String.valueOf(writeValue))){
+                                    ret = "Zápis úspešný";
+                                }else{
+                                    ret = "Error: Zápis sa nepodaril možno sa snažíte zapisovať do input bitu data bloku";
+                                }
+                            }else {
+                                ret = "Error: " + S7Client.ErrorText(res);
+                            }
                         } else {
                             ret = "Error: " + S7Client.ErrorText(res);
                         }
