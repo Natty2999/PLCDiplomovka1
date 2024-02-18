@@ -2,14 +2,10 @@ package com.example.myapplication.plcdiplomovka1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Debug;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -18,7 +14,7 @@ import Moka7.S7;
 import Moka7.S7Client;
 //import methods from MainActivity.java
 
-public class MainActivityVytahOvladanie extends AppCompatActivity {
+public class RamenoActivity extends AppCompatActivity {
     private MaterialCheckBox checkBoxVytah0;
     private MaterialSwitch switch1;
     private TextView debugText;
@@ -31,10 +27,8 @@ public class MainActivityVytahOvladanie extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_vytah_ovladanie);
-        checkBoxVytah0 = findViewById(R.id.checkBox0);
-        debugText = findViewById(R.id.DebugText);
-        switch1 = findViewById(R.id.switch1);
+        setContentView(R.layout.activity_rameno);
+        //checkBoxVytah0 = findViewById(R.id.checkBox0);
         checkBoxVytah0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +52,7 @@ public class MainActivityVytahOvladanie extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 // Update UI with current count
-                new MainActivityVytahOvladanie.PlcReader().execute();
+                new RamenoActivity.PlcReader().execute();
                 //System.out.println("Countdown: " + counter);
                 counter--;
                 debugText.setText("Countdown: " + counter);
@@ -79,10 +73,10 @@ public class MainActivityVytahOvladanie extends AppCompatActivity {
         }
     }
     public void writeDB0(View view){
-        new MainActivityVytahOvladanie.PlcWriter().execute();
+        new RamenoActivity.PlcWriter().execute();
     }
     public void readDB0(View view){
-        new MainActivityVytahOvladanie.PlcReader().execute();
+        new RamenoActivity.PlcReader().execute();
     }
 
     private class PlcReader extends AsyncTask<String,Void,String> {
@@ -153,7 +147,8 @@ public class MainActivityVytahOvladanie extends AppCompatActivity {
                     byte[] data = new byte[1];
                     res = client.ReadArea(S7.S7AreaDB, dbNumber, dbOffset, 1, data);
                     if (res == 0) {
-                        S7.SetBitAt(data, 0, dbBit, writeValue);
+                        boolean bitValue = S7.GetBitAt(data, 0, dbBit);
+                        S7.SetBitAt(data, 0, dbBit, !bitValue);
                         res = client.WriteArea(S7.S7AreaDB, dbNumber, dbOffset, 1, data);
                         if (res == 0) {
                             res = client.ReadArea(S7.S7AreaDB,dbNumber,dbOffset,1,data);
