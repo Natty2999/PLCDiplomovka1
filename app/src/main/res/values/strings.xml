@@ -3,12 +3,15 @@
     <string name="ip_adresa">IP Adresa</string>
     <string name="diplomovka">Diplomovka</string>
     <string name="edit_values">Dalšia strana</string>
-    <string name="write">Write</string>
     <string name="read">Read</string>
     <string name="odpoji">Odpojiť</string>
-    <string name="zap_san_hodnota">Zapísaná hodnota</string>
     <string name="pre_tan_hodnota">Prečítaná hodnota</string>
     <string name="db_offset">DB Offset</string>
     <string name="db_number">DB Number</string>
     <string name="hodnoty_db">Hodnoty DB</string>
+    <string name="db_bit">DB Bit</string>
+    <string name="ulo_i">Uložiť</string>
+    <string name="vytah">Výťah</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
