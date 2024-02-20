@@ -17,7 +17,27 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutSettings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItemVytah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vytah" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItemRameno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rameno" />
+
+    </com.google.android.material.tabs.TabLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
