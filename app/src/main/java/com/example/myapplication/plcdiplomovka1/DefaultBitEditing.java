@@ -31,8 +31,6 @@ public class DefaultBitEditing extends Fragment {
     private String mParam2;
     public String stringValue ="";
     private Button buttonNextPage;
-    private Button buttonWrite;
-    private Button buttonRead;
 
     private MaterialSwitch switchRead;
     private EditText textInputDBNumber;
@@ -83,7 +81,7 @@ public class DefaultBitEditing extends Fragment {
         View view = inflater.inflate(R.layout.fragment_default_bit_editing, container, false);
         // Inflate the layout for this fragment
         buttonNextPage = view.findViewById(R.id.buttonNextPage);
-        switchRead = view.findViewById(R.id.switchRead);
+        switchRead = view.findViewById(R.id.switchReadVytah);
         textInputDBNumber = view.findViewById(R.id.TextInputDBNumber);
         textInputDBOffset = view.findViewById(R.id.TextInputDBOffset);
         textInputDBBit = view.findViewById(R.id.TextInputDBBit);
@@ -91,12 +89,12 @@ public class DefaultBitEditing extends Fragment {
         textInputWriteValue = view.findViewById(R.id.TextInputWriteValue);
         textInputReadValue = view.findViewById(R.id.TextInputReadValue);
         errorText = view.findViewById(R.id.errorText);
-        buttonWrite = view.findViewById(R.id.buttonWrite);
-        buttonRead = view.findViewById(R.id.buttonRead);
+        Button buttonWrite = view.findViewById(R.id.buttonWrite);
+        Button buttonRead = view.findViewById(R.id.buttonRead);
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 startCountdown();
-                counter =100;
+                counter = 100;
             } else {
                 cancelCountdown();
             }
