@@ -1,17 +1,19 @@
 <resources>
-    <string name="app_name">PLCDiplomovka</string>
+    <string name="app_name">PLCApp</string>
     <string name="ip_adresa">IP Adresa</string>
     <string name="diplomovka">Diplomovka</string>
     <string name="edit_values">Dalšia strana</string>
-    <string name="read">Read</string>
+    <string name="read">Prečítať</string>
+    <string name="write">Zapísať</string>
     <string name="odpoji">Odpojiť</string>
-    <string name="pre_tan_hodnota">Prečítaná hodnota</string>
-    <string name="db_offset">DB Offset</string>
-    <string name="db_number">DB Number</string>
+    <string name="precitana_hodnota">Prečítaná hodnota</string>
+    <string name="db_offset">Byte DB</string>
+    <string name="db_cislo">Číslo DB</string>
     <string name="hodnoty_db">Hodnoty DB</string>
-    <string name="db_bit">DB Bit</string>
-    <string name="ulo_i">Uložiť</string>
+    <string name="db_bit">Bit DB</string>
+    <string name="ulozit">Uložiť</string>
     <string name="vytah">Výťah</string>
+    <string name="rameno">Rameno</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
