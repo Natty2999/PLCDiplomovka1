@@ -48,7 +48,7 @@
             android:id="@+id/TextInputDBNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/db_number"
+            android:hint="@string/db_cislo"
             android:inputType="number"
             android:text="1"
             android:textColorHint="#546E7A" />
@@ -106,7 +106,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:onClick="writeDB"
         android:text="Write"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout6"
@@ -132,7 +131,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:onClick="readDB"
         android:text="@string/read"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout3"
@@ -159,7 +157,7 @@
             android:id="@+id/TextInputReadValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pre_tan_hodnota"
+            android:hint="@string/precitana_hodnota"
             android:textColorHint="#546E7A" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +173,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchRead"
+        android:id="@+id/switchReadVytah"
         android:layout_width="135dp"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
