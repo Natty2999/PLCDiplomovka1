@@ -50,7 +50,7 @@
             android:id="@+id/TextInputDBNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/db_number"
+            android:hint="@string/db_cislo"
             android:inputType="number"
             android:text="1"
             android:textColorHint="#546E7A" />
@@ -159,7 +159,7 @@
             android:id="@+id/TextInputReadValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pre_tan_hodnota"
+            android:hint="@string/precitana_hodnota"
             android:textColorHint="#546E7A" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +175,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchRead"
+        android:id="@+id/switchReadVytah"
         android:layout_width="135dp"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
