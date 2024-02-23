@@ -1,5 +1,9 @@
 package com.example.myapplication.plcdiplomovka1;
 
+import static java.lang.Math.floor;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import Moka7.*;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
@@ -36,12 +42,20 @@ public class DefaultBitEditing extends Fragment {
     private EditText textInputDBNumber;
     private EditText textInputDBOffset;
     private EditText textInputDBBit;
+    private EditText textInputTrvanie;
+    private EditText textInputInterval;
     private EditText textInputIPAddress;
     private EditText textInputWriteValue;
     private EditText textInputReadValue;
     private CountDownTimer countDownTimer;
     private TextView errorText;
-    private int counter = 10;
+    private int counter;
+
+    private int counterInterval ;
+    private int counterDuration ;
+    private int counterSetValue ;
+    private static final String SHARED_PREFS = "sharedPrefs";
+    private static final String IP_ADRESA_VYTAH = "ipAdresaVytah";
     public DefaultBitEditing() {
         // Required empty public constructor
     }
@@ -79,8 +93,9 @@ public class DefaultBitEditing extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_default_bit_editing, container, false);
+
         // Inflate the layout for this fragment
-        buttonNextPage = view.findViewById(R.id.buttonNextPage);
+        //buttonNextPage = view.findViewById(R.id.buttonNextPage);
         switchRead = view.findViewById(R.id.switchReadVytah);
         textInputDBNumber = view.findViewById(R.id.TextInputDBNumber);
         textInputDBOffset = view.findViewById(R.id.TextInputDBOffset);
@@ -91,32 +106,53 @@ public class DefaultBitEditing extends Fragment {
         errorText = view.findViewById(R.id.errorText);
         Button buttonWrite = view.findViewById(R.id.buttonWrite);
         Button buttonRead = view.findViewById(R.id.buttonRead);
+        textInputTrvanie = view.findViewById(R.id.TextInputEditTextTrvanie);
+        textInputInterval = view.findViewById(R.id.TextInputEditTextInterval);
+
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 startCountdown();
-                counter = 100;
+                if (textInputTrvanie.getText().toString().isEmpty()) {
+                    counterDuration = 10000;
+                } else {
+                    counterDuration = Integer.parseInt(textInputTrvanie.getText().toString())*1000;
+                }
+                if (textInputInterval.getText().toString().isEmpty()) {
+                    counterInterval = 100;
+                } else {
+                    counterInterval = Integer.parseInt(textInputInterval.getText().toString());
+                }
+                counter = (int) floor(counterDuration / counterInterval);
             } else {
                 cancelCountdown();
             }
         });
-        buttonRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readDB(v);
-            }
-        });
-        buttonWrite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                writeDB(v);
-            }
-        });
-
+        buttonRead.setOnClickListener(this::readDB);
+        buttonWrite.setOnClickListener(this::writeDB);
+        loadData();
         return view;
+
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
     private void startCountdown() {
         cancelCountdown(); // Cancel any existing countdown
-        countDownTimer = new CountDownTimer(10000, 100) {
+        if (textInputTrvanie.getText().toString().isEmpty()) {
+            counterDuration = 10000;
+        } else {
+            counterDuration = Integer.parseInt(textInputTrvanie.getText().toString())*1000;
+        }
+        if (textInputInterval.getText().toString().isEmpty()) {
+            counterInterval = 100;
+        } else {
+            counterInterval = Integer.parseInt(textInputInterval.getText().toString());
+        }
+        Toast.makeText(getActivity(), "counters = "+(int) floor(counterDuration / counterInterval), Toast.LENGTH_SHORT).show();
+        countDownTimer = new CountDownTimer(counterDuration, counterInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // Update UI with current count
@@ -127,8 +163,10 @@ public class DefaultBitEditing extends Fragment {
 
             @Override
             public void onFinish() {
+
                 //System.out.println("Countdown finished");
-                counter = 100; // Reset counter
+                counter = (int) floor(counterDuration / counterInterval);
+
                 switchRead.setChecked(false); // Turn off the switch after countdown finishes
             }
         };
@@ -192,10 +230,6 @@ public class DefaultBitEditing extends Fragment {
                     stringValue = ret;
                 }
                 else{
-                    Integer dbNumber = Integer.parseInt(textInputDBNumber.getText().toString());
-                    Integer dbOffset = Integer.parseInt(textInputDBOffset.getText().toString());
-                    Integer dbBit = Integer.parseInt(textInputDBBit.getText().toString());
-
                     stringValue = DBAddress  + ret;
                 }
                 if(stringValue.toLowerCase().contains("error")){
@@ -205,9 +239,6 @@ public class DefaultBitEditing extends Fragment {
                     textInputReadValue.setText(stringValue);
                 }
 
-            }
-            else{
-                //code here
             }
         }
     }
@@ -277,4 +308,13 @@ public class DefaultBitEditing extends Fragment {
         }
     }
 
+    private void loadData(){
+        if (getActivity()!=null){
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+            textInputIPAddress.setText(sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138"));
+            //Toast.makeText(getContext(), "Dáta načítané.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
