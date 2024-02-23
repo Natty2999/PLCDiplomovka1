@@ -6,21 +6,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.materialswitch.MaterialSwitch;
+import androidx.fragment.app.Fragment;
 
-import java.util.Arrays;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import Moka7.S7;
 import Moka7.S7Client;
@@ -32,8 +29,6 @@ import Moka7.S7Client;
  */
 
 public class VytahFragment extends Fragment {
-    private String ipAddress = "192.168.0.138";
-    private int dbNumber = 1;
 
     private String vytahIPAdresa;
     private String snimace_DBNumber;
@@ -77,6 +72,7 @@ public class VytahFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private Button buttonDraha;
     private MaterialSwitch switchRead;
+    private TextView vytahNadpis;
     private TextView errorText;
     private TextView i_snimac_l;
     private TextView i_snimac_p;
@@ -160,6 +156,7 @@ public class VytahFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vytah, container, false);
         // Inflate the layout for this fragment
         //tlacidla
+        errorText = view.findViewById(R.id.errorTextVytah);
         buttonDraha = view.findViewById(R.id.buttonDraha);
         //switch
         switchRead = view.findViewById(R.id.switchReadVytah);
@@ -183,9 +180,11 @@ public class VytahFragment extends Fragment {
         imageViewVytahDole = view.findViewById(R.id.imageViewVytahDole);
         imageViewSnimacL = view.findViewById(R.id.imageViewSnimacL);
         imageViewSnimacP = view.findViewById(R.id.imageViewSnimacP);
-        int falseRed = getResources().getColor(R.color.falseRed,  getActivity().getTheme());
-        int trueGreen = getResources().getColor(R.color.trueGreen, getActivity().getTheme());
-        setAllToRed(view,falseRed);
+        //text
+        vytahNadpis = view.findViewById(R.id.vytahNadpis);
+        int falseRed = getResources().getColor(R.color.falseRed,  requireActivity().getTheme());
+        int trueGreen = getResources().getColor(R.color.trueGreen, requireActivity().getTheme());
+        setAllToRed(falseRed);
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 startCountdown();
@@ -211,41 +210,42 @@ public class VytahFragment extends Fragment {
         return view;
     }
     public void loadData(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        if (getActivity() != null) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+            vytahNadpis.setText(String.format("%s - %s", getResources().getString(R.string.vytah), sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138")));
+            vytahIPAdresa = sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138");
+            snimace_DBNumber = sharedPreferences.getString(SNIMACE_DBNUMBER, "1");
+            // Snimace
+            // Offsety
 
-        vytahIPAdresa = sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138");
-        snimace_DBNumber = sharedPreferences.getString(SNIMACE_DBNUMBER, "1");
-        // Snimace
-        // Offsety
+            snimac_L_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_L_DBOFFSET, "0"));
+            snimac_P_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_P_DBOFFSET, "0"));
+            snimac_H_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_H_DBOFFSET, "0"));
+            snimac_Vytah_H_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_H_DBOFFSET, "0"));
+            snimac_Vytah_D_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_D_DBOFFSET, "0"));
+            snimac_Rameno_DBoffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_RAMENO_DBOFFSET, "0"));
+            snimac_Piest_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_PIEST_DBOFFSET, "0"));
 
-        snimac_L_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_L_DBOFFSET, "0"));
-        snimac_P_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_P_DBOFFSET, "0"));
-        snimac_H_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_H_DBOFFSET, "0"));
-        snimac_Vytah_H_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_H_DBOFFSET, "0"));
-        snimac_Vytah_D_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_D_DBOFFSET, "0"));
-        snimac_Rameno_DBoffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_RAMENO_DBOFFSET, "0"));
-        snimac_Piest_DBOffset = Integer.parseInt(sharedPreferences.getString(SNIMAC_PIEST_DBOFFSET, "0"));
+            snimac_L_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_L_DBBIT, "0"));
+            snimac_P_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_P_DBBIT, "1"));
+            snimac_H_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_H_DBBIT, "3"));
+            snimac_Vytah_H_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_H_DBBIT, "4"));
+            snimac_Vytah_D_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_D_DBBIT, "5"));
+            snimac_Rameno_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_RAMENO_DBBIT, "2"));
+            snimac_Piest_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_PIEST_DBBIT, "6"));
 
-        snimac_L_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_L_DBBIT, "0"));
-        snimac_P_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_P_DBBIT, "1"));
-        snimac_H_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_H_DBBIT, "3"));
-        snimac_Vytah_H_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_H_DBBIT, "4"));
-        snimac_Vytah_D_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_VYTAH_D_DBBIT, "5"));
-        snimac_Rameno_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_RAMENO_DBBIT, "2"));
-        snimac_Piest_DBBit = Integer.parseInt(sharedPreferences.getString(SNIMAC_PIEST_DBBIT, "6"));
+            vystup_Draha_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_DRAHA_DBOFFSET, "2"));
+            vystup_Piest_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_PIEST_DBOFFSET, "2"));
+            vystup_Vytah_H_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBOFFSET, "2"));
+            vystup_Vytah_D_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBOFFSET, "2"));
+            vystup_Manual_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBOFFSET, "2"));
 
-        vystup_Draha_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_DRAHA_DBOFFSET, "2"));
-        vystup_Piest_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_PIEST_DBOFFSET, "2"));
-        vystup_Vytah_H_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBOFFSET, "2"));
-        vystup_Vytah_D_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBOFFSET, "2"));
-        vystup_Manual_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBOFFSET, "2"));
-
-        vystup_Draha_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_DRAHA_DBBIT, "3"));
-        vystup_Piest_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_PIEST_DBBIT, "2"));
-        vystup_Vytah_H_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBBIT, "1"));
-        vystup_Vytah_D_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBBIT, "0"));
-        vystup_Manual_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBBIT, "4"));
-
+            vystup_Draha_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_DRAHA_DBBIT, "3"));
+            vystup_Piest_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_PIEST_DBBIT, "2"));
+            vystup_Vytah_H_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBBIT, "1"));
+            vystup_Vytah_D_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBBIT, "0"));
+            vystup_Manual_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBBIT, "4"));
+        }
     }
     private void startCountdown() {
         cancelCountdown(); // Cancel any existing countdown
@@ -284,10 +284,10 @@ public class VytahFragment extends Fragment {
                 //inputs
                 int dbOffsetInputs = 0;
 
-                int res = client.ConnectTo(ipAddress,0,2);// ak je S7-300 tak je vždy 0,2
+                int res = client.ConnectTo(vytahIPAdresa,0,2);// ak je S7-300 tak je vždy 0,2
 
                 if(res == 0){//ak je 0 tak je pripojenie úspešné
-                    res = client.ReadArea(S7.S7AreaDB,dbNumber,dbOffsetInputs,3,data);
+                    res = client.ReadArea(S7.S7AreaDB, Integer.parseInt(snimace_DBNumber),dbOffsetInputs,3,data);
                     //log res in console
 
                     for(int i = 0; i < data.length; i++){
@@ -318,13 +318,13 @@ public class VytahFragment extends Fragment {
                 //inputs
                 //log dataBools[snimac_L_DBOffset][snimac_L_DBBit] in console
 
-                i_snimac_l.setTextColor(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_snimac_p.setTextColor(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_snimac_h.setTextColor(dataBools[snimac_H_DBOffset][snimac_H_DBBit] ? getResources().getColor(R.color.falseRed, getActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
-                i_rameno_pritomne.setTextColor(dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_vytah_h.setTextColor(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_vytah_d.setTextColor(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_piest_vysunuty.setTextColor(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit] ? getResources().getColor(R.color.falseRed, getActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
+                i_snimac_l.setTextColor(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
+                i_snimac_p.setTextColor(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
+                i_snimac_h.setTextColor(dataBools[snimac_H_DBOffset][snimac_H_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
+                i_rameno_pritomne.setTextColor(dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
+                i_vytah_h.setTextColor(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
+                i_vytah_d.setTextColor(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
+                i_piest_vysunuty.setTextColor(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
                 //outputs
                 q_draha.setTextColor(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
                 q_vytah_h.setTextColor(dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
@@ -366,7 +366,7 @@ public class VytahFragment extends Fragment {
             }
         }
     }
-    private void setAllToRed(View v,int falseRed){
+    private void setAllToRed(int falseRed){
         //ikony
         imageViewDrahaVzduch.setColorFilter(falseRed);
         imageViewVytahDole.setColorFilter(falseRed);
