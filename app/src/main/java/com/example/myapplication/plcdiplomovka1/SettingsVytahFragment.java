@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SettingsVytahFragment extends Fragment {
     //text inputy
@@ -205,56 +206,53 @@ public class SettingsVytahFragment extends Fragment {
 
         FloatingActionButton saveButton = view.findViewById(R.id.ActionButtonSave);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //uloz do sharedpreferences
-                String ipAdresaVytah = vytahIPAdresa.getText().toString();
-                String snimace_DBNumberStr = snimace_DBNumber.getText().toString();
-                //skontroluj ci je v tvare IP adresy
-                boolean isIP = ipAdresaVytah.matches("(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
-                boolean isDBNumber = snimace_DBNumberStr.matches("\\d{1,3}");
-                boolean isEmpty = false;
-                boolean isWrongOffset = false;
-                boolean isWrongBit = false;
-                //skontroluj ci su vsetky polia vyplnene
+        saveButton.setOnClickListener(v -> {
+            //uloz do sharedpreferences
+            String ipAdresaVytah = Objects.requireNonNull(vytahIPAdresa.getText()).toString();
+            String snimace_DBNumberStr = Objects.requireNonNull(snimace_DBNumber.getText()).toString();
+            //skontroluj ci je v tvare IP adresy
+            boolean isIP = ipAdresaVytah.matches("(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+            boolean isDBNumber = snimace_DBNumberStr.matches("\\d{1,3}");
+            boolean isEmpty = false;
+            boolean isWrongOffset = false;
+            boolean isWrongBit = false;
+            //skontroluj ci su vsetky polia vyplnene
 
-                //skontroluj ci su vsetky offsety v spravnom formate
-                for(TextInputEditText textInputEditText : textInputEditTextsOffsets){
-                    if(!textInputEditText.getText().toString().matches("\\d{1,3}")){
-                        textInputEditText.setError("Zlý formát Offsetu. 0-255");
-                        isWrongOffset = true;
-                    }
+            //skontroluj ci su vsetky offsety v spravnom formate
+            for(TextInputEditText textInputEditText : textInputEditTextsOffsets){
+                if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches("\\d{1,3}")){
+                    textInputEditText.setError("Zlý formát Offsetu. 0-255");
+                    isWrongOffset = true;
                 }
-                //skontroluj ci su vsetky bity v spravnom formate
-                for(TextInputEditText textInputEditText : textInputEditTextsBits){
-                    if(!textInputEditText.getText().toString().matches("^[0-7]$")){
-                        textInputEditText.setError("Zlý formát Bitu. 0-7");
-                        isWrongBit = true;
-                    }
+            }
+            //skontroluj ci su vsetky bity v spravnom formate
+            for(TextInputEditText textInputEditText : textInputEditTextsBits){
+                if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches("^[0-7]$")){
+                    textInputEditText.setError("Zlý formát Bitu. 0-7");
+                    isWrongBit = true;
                 }
-                for(TextInputEditText textInputEditText : textInputEditTextsAll){
-                    if(textInputEditText.getText().toString().trim().isEmpty()){
-                        textInputEditText.setError("Pole je prázdne.");
-                        isEmpty = true;
-                    }
+            }
+            for(TextInputEditText textInputEditText : textInputEditTextsAll){
+                if(Objects.requireNonNull(textInputEditText.getText()).toString().trim().isEmpty()){
+                    textInputEditText.setError("Pole je prázdne.");
+                    isEmpty = true;
                 }
+            }
 
-                if (isEmpty){
-                    Toast.makeText(getActivity(), "Niektoré z polí je prázdne.", Toast.LENGTH_SHORT).show();
-                } else if (!isIP) {
-                    vytahIPAdresa.setError("Zadajte správny formát IP.");
-                    Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
-                }else if (isWrongOffset) {
-                    Toast.makeText(getActivity(), "Zadajte správny formát Offsetu.", Toast.LENGTH_SHORT).show();
-                }else if (isWrongBit) {
-                    Toast.makeText(getActivity(), "Zadajte správny formát Bitu.", Toast.LENGTH_SHORT).show();
-                } else if (!isDBNumber) {
-                    snimace_DBNumber.setError("Zadajte správny formát čisla DB. 0-255");
-                    Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
-                } else {
-                    saveData();
-                }
+            if (isEmpty){
+                Toast.makeText(getActivity(), "Niektoré z polí je prázdne.", Toast.LENGTH_SHORT).show();
+            } else if (!isIP) {
+                vytahIPAdresa.setError("Zadajte správny formát IP.");
+                Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
+            }else if (isWrongOffset) {
+                Toast.makeText(getActivity(), "Zadajte správny formát Offsetu.", Toast.LENGTH_SHORT).show();
+            }else if (isWrongBit) {
+                Toast.makeText(getActivity(), "Zadajte správny formát Bitu.", Toast.LENGTH_SHORT).show();
+            } else if (!isDBNumber) {
+                snimace_DBNumber.setError("Zadajte správny formát čisla DB. 0-255");
+                Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
+            } else {
+                saveData();
             }
         });
 
@@ -265,83 +263,87 @@ public class SettingsVytahFragment extends Fragment {
     }
     public void saveData(){
         //uloz do sharedpreferences
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (getActivity() != null) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(IP_ADRESA_VYTAH, Objects.requireNonNull(vytahIPAdresa.getText()).toString());
+            editor.putString(SNIMACE_DBNUMBER, Objects.requireNonNull(snimace_DBNumber.getText()).toString());
+            // Snimac
+            // Offsety
+            editor.putString(SNIMAC_L_DBOFFSET, Objects.requireNonNull(snimac_L_DBOffset.getText()).toString());
+            editor.putString(SNIMAC_P_DBOFFSET, Objects.requireNonNull(snimac_P_DBOffset.getText()).toString());
+            editor.putString(SNIMAC_H_DBOFFSET, Objects.requireNonNull(snimac_H_DBOffset.getText()).toString());
+            editor.putString(SNIMAC_VYTAH_H_DBOFFSET, Objects.requireNonNull(snimac_Vytah_H_DBOffset.getText()).toString());
+            editor.putString(SNIMAC_VYTAH_D_DBOFFSET, Objects.requireNonNull(snimac_Vytah_D_DBOffset.getText()).toString());
+            editor.putString(SNIMAC_RAMENO_DBOFFSET, Objects.requireNonNull(snimac_Rameno_DBoffset.getText()).toString());
+            editor.putString(SNIMAC_PIEST_DBOFFSET, Objects.requireNonNull(snimac_Piest_DBOffset.getText()).toString());
+            // Bity
+            editor.putString(SNIMAC_L_DBBIT, Objects.requireNonNull(snimac_L_DBBit.getText()).toString());
+            editor.putString(SNIMAC_P_DBBIT, Objects.requireNonNull(snimac_P_DBBit.getText()).toString());
+            editor.putString(SNIMAC_H_DBBIT, Objects.requireNonNull(snimac_H_DBBit.getText()).toString());
+            editor.putString(SNIMAC_VYTAH_H_DBBIT, Objects.requireNonNull(snimac_Vytah_H_DBBit.getText()).toString());
+            editor.putString(SNIMAC_VYTAH_D_DBBIT, Objects.requireNonNull(snimac_Vytah_D_DBBit.getText()).toString());
+            editor.putString(SNIMAC_RAMENO_DBBIT, Objects.requireNonNull(snimac_Rameno_DBBit.getText()).toString());
+            editor.putString(SNIMAC_PIEST_DBBIT, Objects.requireNonNull(snimac_Piest_DBBit.getText()).toString());
 
-        // Snimac
-        // Offsety
-        editor.putString(SNIMAC_L_DBOFFSET, snimac_L_DBOffset.getText().toString());
-        editor.putString(SNIMAC_P_DBOFFSET, snimac_P_DBOffset.getText().toString());
-        editor.putString(SNIMAC_H_DBOFFSET, snimac_H_DBOffset.getText().toString());
-        editor.putString(SNIMAC_VYTAH_H_DBOFFSET, snimac_Vytah_H_DBOffset.getText().toString());
-        editor.putString(SNIMAC_VYTAH_D_DBOFFSET, snimac_Vytah_D_DBOffset.getText().toString());
-        editor.putString(SNIMAC_RAMENO_DBOFFSET, snimac_Rameno_DBoffset.getText().toString());
-        editor.putString(SNIMAC_PIEST_DBOFFSET, snimac_Piest_DBOffset.getText().toString());
-        // Bity
-        editor.putString(SNIMAC_L_DBBIT, snimac_L_DBBit.getText().toString());
-        editor.putString(SNIMAC_P_DBBIT, snimac_P_DBBit.getText().toString());
-        editor.putString(SNIMAC_H_DBBIT, snimac_H_DBBit.getText().toString());
-        editor.putString(SNIMAC_VYTAH_H_DBBIT, snimac_Vytah_H_DBBit.getText().toString());
-        editor.putString(SNIMAC_VYTAH_D_DBBIT, snimac_Vytah_D_DBBit.getText().toString());
-        editor.putString(SNIMAC_RAMENO_DBBIT, snimac_Rameno_DBBit.getText().toString());
-        editor.putString(SNIMAC_PIEST_DBBIT, snimac_Piest_DBBit.getText().toString());
-
-        // Vystup
-        // Offsety
-        editor.putString(VYSTUP_DRAHA_DBOFFSET, vystup_Draha_DBOffset.getText().toString());
-        editor.putString(VYSTUP_PIEST_DBOFFSET, vystup_Piest_DBOffset.getText().toString());
-        editor.putString(VYSTUP_VYTAH_H_DBOFFSET, vystup_Vytah_H_DBOffset.getText().toString());
-        editor.putString(VYSTUP_VYTAH_D_DBOFFSET, vystup_Vytah_D_DBOffset.getText().toString());
-        editor.putString(VYSTUP_MANUAL_DBOFFSET, vystup_Manual_DBOffset.getText().toString());
-        // Bity
-        editor.putString(VYSTUP_DRAHA_DBBIT, vystup_Draha_DBBit.getText().toString());
-        editor.putString(VYSTUP_PIEST_DBBIT, vystup_Piest_DBBit.getText().toString());
-        editor.putString(VYSTUP_VYTAH_H_DBBIT, vystup_Vytah_H_DBBit.getText().toString());
-        editor.putString(VYSTUP_VYTAH_D_DBBIT, vystup_Vytah_D_DBBit.getText().toString());
-        editor.putString(VYSTUP_MANUAL_DBBIT, vystup_Manual_DBBit.getText().toString());
+            // Vystup
+            // Offsety
+            editor.putString(VYSTUP_DRAHA_DBOFFSET, Objects.requireNonNull(vystup_Draha_DBOffset.getText()).toString());
+            editor.putString(VYSTUP_PIEST_DBOFFSET, Objects.requireNonNull(vystup_Piest_DBOffset.getText()).toString());
+            editor.putString(VYSTUP_VYTAH_H_DBOFFSET, Objects.requireNonNull(vystup_Vytah_H_DBOffset.getText()).toString());
+            editor.putString(VYSTUP_VYTAH_D_DBOFFSET, Objects.requireNonNull(vystup_Vytah_D_DBOffset.getText()).toString());
+            editor.putString(VYSTUP_MANUAL_DBOFFSET, Objects.requireNonNull(vystup_Manual_DBOffset.getText()).toString());
+            // Bity
+            editor.putString(VYSTUP_DRAHA_DBBIT, Objects.requireNonNull(vystup_Draha_DBBit.getText()).toString());
+            editor.putString(VYSTUP_PIEST_DBBIT, Objects.requireNonNull(vystup_Piest_DBBit.getText()).toString());
+            editor.putString(VYSTUP_VYTAH_H_DBBIT, Objects.requireNonNull(vystup_Vytah_H_DBBit.getText()).toString());
+            editor.putString(VYSTUP_VYTAH_D_DBBIT, Objects.requireNonNull(vystup_Vytah_D_DBBit.getText()).toString());
+            editor.putString(VYSTUP_MANUAL_DBBIT, Objects.requireNonNull(vystup_Manual_DBBit.getText()).toString());
 
 
+            editor.apply();
 
-        editor.apply();
-
-        Toast.makeText(getActivity(), "Uložené!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Uložené!", Toast.LENGTH_SHORT).show();
+        }
     }
     public void loadData(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        if (getActivity() != null){
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
-        vytahIPAdresa.setText(sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138"));
-        snimace_DBNumber.setText(sharedPreferences.getString(SNIMACE_DBNUMBER, "1"));
-        // Snimace
-        // Offsety
-        snimac_L_DBOffset.setText(sharedPreferences.getString(SNIMAC_L_DBOFFSET, "0"));
-        snimac_P_DBOffset.setText(sharedPreferences.getString(SNIMAC_P_DBOFFSET, "0"));
-        snimac_H_DBOffset.setText(sharedPreferences.getString(SNIMAC_H_DBOFFSET, "0"));
-        snimac_Vytah_H_DBOffset.setText(sharedPreferences.getString(SNIMAC_VYTAH_H_DBOFFSET, "0"));
-        snimac_Vytah_D_DBOffset.setText(sharedPreferences.getString(SNIMAC_VYTAH_D_DBOFFSET, "0"));
-        snimac_Rameno_DBoffset.setText(sharedPreferences.getString(SNIMAC_RAMENO_DBOFFSET, "0"));
-        snimac_Piest_DBOffset.setText(sharedPreferences.getString(SNIMAC_PIEST_DBOFFSET, "0"));
+            vytahIPAdresa.setText(sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138"));
+            snimace_DBNumber.setText(sharedPreferences.getString(SNIMACE_DBNUMBER, "1"));
+            // Snimace
+            // Offsety
+            snimac_L_DBOffset.setText(sharedPreferences.getString(SNIMAC_L_DBOFFSET, "0"));
+            snimac_P_DBOffset.setText(sharedPreferences.getString(SNIMAC_P_DBOFFSET, "0"));
+            snimac_H_DBOffset.setText(sharedPreferences.getString(SNIMAC_H_DBOFFSET, "0"));
+            snimac_Vytah_H_DBOffset.setText(sharedPreferences.getString(SNIMAC_VYTAH_H_DBOFFSET, "0"));
+            snimac_Vytah_D_DBOffset.setText(sharedPreferences.getString(SNIMAC_VYTAH_D_DBOFFSET, "0"));
+            snimac_Rameno_DBoffset.setText(sharedPreferences.getString(SNIMAC_RAMENO_DBOFFSET, "0"));
+            snimac_Piest_DBOffset.setText(sharedPreferences.getString(SNIMAC_PIEST_DBOFFSET, "0"));
 
-        // Bity
-        snimac_L_DBBit.setText(sharedPreferences.getString(SNIMAC_L_DBBIT, "0"));
-        snimac_P_DBBit.setText(sharedPreferences.getString(SNIMAC_P_DBBIT, "1"));
-        snimac_H_DBBit.setText(sharedPreferences.getString(SNIMAC_H_DBBIT, "3"));
-        snimac_Vytah_H_DBBit.setText(sharedPreferences.getString(SNIMAC_VYTAH_H_DBBIT, "4"));
-        snimac_Vytah_D_DBBit.setText(sharedPreferences.getString(SNIMAC_VYTAH_D_DBBIT, "5"));
-        snimac_Rameno_DBBit.setText(sharedPreferences.getString(SNIMAC_RAMENO_DBBIT, "2"));
-        snimac_Piest_DBBit.setText(sharedPreferences.getString(SNIMAC_PIEST_DBBIT, "6"));
+            // Bity
+            snimac_L_DBBit.setText(sharedPreferences.getString(SNIMAC_L_DBBIT, "0"));
+            snimac_P_DBBit.setText(sharedPreferences.getString(SNIMAC_P_DBBIT, "1"));
+            snimac_H_DBBit.setText(sharedPreferences.getString(SNIMAC_H_DBBIT, "3"));
+            snimac_Vytah_H_DBBit.setText(sharedPreferences.getString(SNIMAC_VYTAH_H_DBBIT, "4"));
+            snimac_Vytah_D_DBBit.setText(sharedPreferences.getString(SNIMAC_VYTAH_D_DBBIT, "5"));
+            snimac_Rameno_DBBit.setText(sharedPreferences.getString(SNIMAC_RAMENO_DBBIT, "2"));
+            snimac_Piest_DBBit.setText(sharedPreferences.getString(SNIMAC_PIEST_DBBIT, "6"));
 
-        // Vystupy
-        // Offsety
-        vystup_Draha_DBOffset.setText(sharedPreferences.getString(VYSTUP_DRAHA_DBOFFSET, "2"));
-        vystup_Piest_DBOffset.setText(sharedPreferences.getString(VYSTUP_PIEST_DBOFFSET, "2"));
-        vystup_Vytah_H_DBOffset.setText(sharedPreferences.getString(VYSTUP_VYTAH_H_DBOFFSET, "2"));
-        vystup_Vytah_D_DBOffset.setText(sharedPreferences.getString(VYSTUP_VYTAH_D_DBOFFSET, "2"));
-        vystup_Manual_DBOffset.setText(sharedPreferences.getString(VYSTUP_MANUAL_DBOFFSET, "2"));
-        // Bity
-        vystup_Draha_DBBit.setText(sharedPreferences.getString(VYSTUP_DRAHA_DBBIT, "3"));
-        vystup_Piest_DBBit.setText(sharedPreferences.getString(VYSTUP_PIEST_DBBIT, "2"));
-        vystup_Vytah_H_DBBit.setText(sharedPreferences.getString(VYSTUP_VYTAH_H_DBBIT, "1"));
-        vystup_Vytah_D_DBBit.setText(sharedPreferences.getString(VYSTUP_VYTAH_D_DBBIT, "0"));
-        vystup_Manual_DBBit.setText(sharedPreferences.getString(VYSTUP_MANUAL_DBBIT, "4"));
+            // Vystupy
+            // Offsety
+            vystup_Draha_DBOffset.setText(sharedPreferences.getString(VYSTUP_DRAHA_DBOFFSET, "2"));
+            vystup_Piest_DBOffset.setText(sharedPreferences.getString(VYSTUP_PIEST_DBOFFSET, "2"));
+            vystup_Vytah_H_DBOffset.setText(sharedPreferences.getString(VYSTUP_VYTAH_H_DBOFFSET, "2"));
+            vystup_Vytah_D_DBOffset.setText(sharedPreferences.getString(VYSTUP_VYTAH_D_DBOFFSET, "2"));
+            vystup_Manual_DBOffset.setText(sharedPreferences.getString(VYSTUP_MANUAL_DBOFFSET, "2"));
+            // Bity
+            vystup_Draha_DBBit.setText(sharedPreferences.getString(VYSTUP_DRAHA_DBBIT, "3"));
+            vystup_Piest_DBBit.setText(sharedPreferences.getString(VYSTUP_PIEST_DBBIT, "2"));
+            vystup_Vytah_H_DBBit.setText(sharedPreferences.getString(VYSTUP_VYTAH_H_DBBIT, "1"));
+            vystup_Vytah_D_DBBit.setText(sharedPreferences.getString(VYSTUP_VYTAH_D_DBBIT, "0"));
+            vystup_Manual_DBBit.setText(sharedPreferences.getString(VYSTUP_MANUAL_DBBIT, "4"));
+        }
     }
 }
