@@ -2,28 +2,28 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_vytah"
+        android:id="@+id/nav_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_elevator_24"
-        android:title="Výťah" />
-    <item
-        android:id="@+id/nav_rameno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_precision_manufacturing_24"
-        android:title="Rameno" />
-
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/domov" />
     <item
         android:id="@+id/nav_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/baseline_settings_24"
-        android:title="Nastavenia" />
+        android:title="@string/nastavenia" />
     <item
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_vytah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Domov" />
+        android:icon="@drawable/baseline_elevator_24"
+        android:title="@string/vytah" />
+    <item
+        android:id="@+id/nav_rameno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_precision_manufacturing_24"
+        android:title="@string/rameno" />
+
 </menu>
