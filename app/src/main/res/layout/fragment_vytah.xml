@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="@+id/buttonVytahHore" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/vytahNadpis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
