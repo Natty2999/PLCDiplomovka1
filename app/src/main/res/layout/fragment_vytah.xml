@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".VytahFragment">
 
-    <Button
-        android:id="@+id/buttonVytahDole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        android:text="Výťah dole"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/buttonVytahHore" />
-
     <TextView
         android:id="@+id/vytahNadpis"
         android:layout_width="wrap_content"
@@ -41,126 +30,41 @@
         app:srcCompat="@android:drawable/ic_menu_preferences" />
 
     <ImageView
-        android:id="@+id/imageViewSnimacL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonVytahDole"
-        app:srcCompat="@drawable/baseline_circle_24" />
-
-    <ImageView
-        android:id="@+id/imageViewSnimacP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonVytahDole"
-        app:srcCompat="@drawable/baseline_circle_24" />
-
-    <ImageView
         android:id="@+id/imageViewVytahHore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonVytahHore"
-        app:layout_constraintStart_toEndOf="@+id/buttonVytahHore"
-        app:layout_constraintTop_toTopOf="@+id/buttonVytahHore"
-        app:layout_constraintVertical_bias="0.541"
-        app:srcCompat="@drawable/baseline_circle_24" />
-
-    <Button
-        android:id="@+id/buttonDraha"
-        android:layout_width="135dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="412dp"
-        android:text="Dráha"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonVytahHore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="412dp"
-        android:layout_marginEnd="56dp"
-        android:text="Výťah hore"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="412dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/baseline_circle_24" />
 
     <ImageView
         android:id="@+id/imageViewDrahaVzduch"
         android:layout_width="65dp"
         android:layout_height="63dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="104dp"
         android:rotation="-90"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDraha"
-        app:layout_constraintEnd_toEndOf="@+id/buttonDraha"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="@+id/buttonDraha"
+        app:layout_constraintBottom_toBottomOf="@+id/imageDraha"
+        app:layout_constraintEnd_toEndOf="@+id/imageDraha"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="@+id/imageDraha"
         app:srcCompat="@drawable/baseline_air_24" />
 
     <ImageView
         android:id="@+id/imageViewVytahDole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonVytahDole"
-        app:layout_constraintStart_toEndOf="@+id/buttonVytahDole"
-        app:layout_constraintTop_toTopOf="@+id/buttonVytahDole"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="228dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_circle_24" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="105dp"
-        android:layout_height="82dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonVytahDole"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonVytahHore"
-        app:layout_constraintVertical_bias="0.963"
-        app:srcCompat="@drawable/baseline_check_box_outline_blank_24" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="177dp"
-        android:layout_height="115dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_minimize_24" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="136dp"
-        android:layout_height="77dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="188dp"
-        android:rotation="90"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_space_bar_24" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="imageView9,imageView10" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="126dp"
-        android:layout_height="79dp"
-        android:layout_marginEnd="144dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonVytahHore"
-        app:layout_constraintVertical_bias="0.601"
-        app:srcCompat="@drawable/baseline_fluorescent_24" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -304,5 +208,125 @@
         android:text="Monitorovanie"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <Button
+        android:id="@+id/buttonVytahHore"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:text="Výťah hore"
+        app:layout_constraintBottom_toTopOf="@+id/buttonVytahDole"
+        app:layout_constraintStart_toStartOf="@+id/buttonVytahDole" />
+
+    <Button
+        android:id="@+id/buttonPiest"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:text="Piest"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDraha"
+        app:layout_constraintEnd_toEndOf="@+id/buttonDraha" />
+
+    <Button
+        android:id="@+id/buttonDraha"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="16dp"
+        android:text="Dráha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonVytahDole" />
+
+    <Button
+        android:id="@+id/buttonVytahDole"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="16dp"
+        android:text="Výťah dole"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDraha"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonAutoRez"
+        android:layout_width="96dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Auto"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+
+    <Button
+        android:id="@+id/buttonManualRez"
+        android:layout_width="96dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="12dp"
+        android:text="Manual"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAutoRez"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAutoRez" />
+
+    <ImageView
+        android:id="@+id/imagePiestVysuvanie"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="14dp"
+        android:src="@drawable/piestvysun"
+        app:layout_constraintEnd_toEndOf="@+id/imagePiest"
+        app:layout_constraintTop_toTopOf="@+id/imagePiest" />
+
+    <ImageView
+        android:id="@+id/imageSuciastka"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="100dp"
+        android:src="@drawable/puk"
+        app:layout_constraintEnd_toEndOf="@+id/imagePiestVysuvanie"
+        app:layout_constraintTop_toTopOf="@+id/imagePiestVysuvanie" />
+
+    <ImageView
+        android:id="@+id/imageViewSnimacL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonVytahHore"
+        app:layout_constraintStart_toStartOf="@+id/buttonVytahHore"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+    <ImageView
+        android:id="@+id/imageViewSnimacP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSnimacL"
+        app:layout_constraintStart_toEndOf="@+id/imageViewSnimacL"
+        app:layout_constraintTop_toTopOf="@+id/imageViewSnimacL"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+    <ImageView
+        android:id="@+id/imageDraha"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/draha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/errorTextVytah" />
+
+    <ImageView
+        android:id="@+id/imagePiest"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="52dp"
+        android:src="@drawable/piestik"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPiest"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewVytahDole" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
