@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     DefaultBitEditing defaultBitEditing = new DefaultBitEditing();
     VytahFragment vytahFragment = new VytahFragment();
+    //Testing defaultBitEditing = new Testing();
 
     SettingsVytahFragment settingsVytahFragment = new SettingsVytahFragment();
     SettingsRamenoFragment settingsRamenoFragment = new SettingsRamenoFragment();
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         if (itemId == R.id.nav_home) {
             if (defaultBitEditing == null) {
                 defaultBitEditing = new DefaultBitEditing();
+                //defaultBitEditing = new Testing();
             }
             selectedFragment = defaultBitEditing;
         } else if (itemId == R.id.nav_settings) {
