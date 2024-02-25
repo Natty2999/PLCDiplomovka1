@@ -6,35 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".Testing">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutSettings"
-        android:layout_width="409dp"
+    <ImageView
+        android:id="@+id/imagePiesttest"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/piestvysun"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="139dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="44dp"
+        android:src="@drawable/baseline_home_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="100dp"
+        android:text="Left"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItemVytah"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/vytah" />
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="Right"
+        app:layout_constraintStart_toEndOf="@+id/buttonLeft"
+        app:layout_constraintTop_toTopOf="@+id/buttonLeft" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItemRameno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rameno" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPagerSettings"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSettings" />
 </androidx.constraintlayout.widget.ConstraintLayout>
