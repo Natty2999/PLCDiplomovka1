@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import Moka7.*;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 /**
@@ -149,11 +150,7 @@ public class DefaultBitEditing extends Fragment {
 
 
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadData();
-    }
+
     private void startCountdown() {
         cancelCountdown(); // Cancel any existing countdown
         if (textInputTrvanie.getText().toString().isEmpty()) {
