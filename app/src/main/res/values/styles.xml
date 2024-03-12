@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    <style name="et_byte">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:hint">@string/db_offset</item>
+        <item name="android:inputType">number</item>
+    </style>
+    <style name="et_bit">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:hint">@string/db_bit</item>
+        <item name="android:inputType">number</item>
+
+    </style>
+    <style name="til_byte">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+    <style name="til_bit">
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+
+    <style name="btn_show">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:drawableRight">@drawable/baseline_play_arrow_24</item>
+        <item name="android:drawableTint">?attr/colorOnPrimary</item>
+        <item name="android:text">@string/action_show</item>
+    </style>
+    <style name="tv_settings">
+        <item name="android:layout_marginStart">16dp</item>
+    </style>
+    <style name="tv_list_top">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+    <style name="tv_list_rest">
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="tv_list_header">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+</resources>
