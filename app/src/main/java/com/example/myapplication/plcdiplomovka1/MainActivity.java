@@ -1,16 +1,13 @@
 package com.example.myapplication.plcdiplomovka1;
-
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.tabs.TabLayout;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //TODO pridat Toasty na upozornenie prebehnutia deju
@@ -27,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     DefaultBitEditing defaultBitEditing = new DefaultBitEditing();
     VytahFragment vytahFragment = new VytahFragment();
-    //Testing defaultBitEditing = new Testing();
+    RamenoFragment ramenoFragment = new RamenoFragment();
 
     SettingsVytahFragment settingsVytahFragment = new SettingsVytahFragment();
     SettingsRamenoFragment settingsRamenoFragment = new SettingsRamenoFragment();
@@ -35,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DynamicColors.applyToActivityIfAvailable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         tabLayoutSettings = findViewById(R.id.tabLayoutSettings);
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, selectedFragment).addToBackStack(null).commit();
                 }
                     // Add more cases if you have more tabs
-                }
+            }
 
             //onlayout change to lanscape and back to portrait
 
@@ -95,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+        //set default fragment
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new DefaultBitEditing()).commit();
     }
+
     public void changeTablayoutVisibility() {
         if (settingsVytahFragment.isAdded() && settingsVytahFragment.isVisible()) {
             tabLayoutSettings.setVisibility(TabLayout.VISIBLE);
@@ -132,13 +133,45 @@ public class MainActivity extends AppCompatActivity {
             }
             selectedFragment = vytahFragment;
         }
+        else if (itemId == R.id.nav_rameno) {
+            if ( ramenoFragment == null) {
+                ramenoFragment = new RamenoFragment();
+            }
+            selectedFragment = ramenoFragment;
+        }
         if (selectedFragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, selectedFragment).addToBackStack(null).commit();
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+            if (selectedFragment != currentFragment) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, selectedFragment).addToBackStack(null).commit();
+            }
+
         }
     }
+
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         changeTablayoutVisibility();
+    }
+    // on back button pressed
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStack();
+                    changeTablayoutVisibility();
+
+                } else {
+                    setEnabled(false);
+                    MainActivity.super.onBackPressed();
+                    finish();
+                }
+            }
+        });
     }
 }
