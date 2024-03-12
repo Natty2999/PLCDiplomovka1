@@ -25,23 +25,93 @@ public class RamenoActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private int counter = 10;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rameno);
-        //checkBoxVytah0 = findViewById(R.id.checkBox0);
-        checkBoxVytah0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                writeDB0(v);
+    public void onResume() {
+        super.onResume();
+        //loadData();
+        // Get the MainActivity
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            // Get the BottomNavigationView from the MainActivity
+            BottomNavigationView bottomNavigationView = mainActivity.findViewById(R.id.bottomNavigationView);
+            // Set the selected item
+            if (bottomNavigationView != null && bottomNavigationView.getSelectedItemId() != R.id.nav_rameno){
+                bottomNavigationView.setSelectedItemId(R.id.nav_rameno);
             }
-        });
-        switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                startCountdown();
-                counter =100;
-            } else {
-                cancelCountdown();
-            }
+        }
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_rameno, container, false);
+        switchReadRameno = view.findViewById(R.id.sw_read_rameno);
+        errorText = view.findViewById(R.id.errorText);
+        tv_nadpis_rameno = view.findViewById(R.id.tv_nadpis_rameno);
+        btn_start_rameno = view.findViewById(R.id.btn_start_rameno);
+        btn_stop_rameno = view.findViewById(R.id.btn_stop_rameno);
+        btn_rameno_kv = view.findViewById(R.id.btn_rameno_kv);
+        btn_rameno_kz = view.findViewById(R.id.btn_rameno_kz);
+        btn_rameno_extruder = view.findViewById(R.id.btn_rameno_extruder);
+        btn_rameno_odfuk = view.findViewById(R.id.btn_rameno_odfuk);
+        btn_rameno_prisavka = view.findViewById(R.id.btn_rameno_prisavka);
+
+
+        tv_rameno_inp_prisiaty_vyrobok = view.findViewById(R.id.tv_rameno_inp_prisiaty_vyrobok);
+        tv_rameno_inp_dom_poloha = view.findViewById(R.id.tv_rameno_inp_dom_poloha);
+        tv_rameno_inp_vysunuty_extruder = view.findViewById(R.id.tv_rameno_inp_vysunuty_extruder);
+        tv_rameno_inp_prazdny_zasobnik = view.findViewById(R.id.tv_rameno_inp_prazdny_zasobnik);
+        tv_rameno_inp_rameno_pri_z = view.findViewById(R.id.tv_rameno_inp_rameno_pri_zasobniku);
+        tv_rameno_inp_rameno_pri_v = view.findViewById(R.id.tv_rameno_inp_rameno_pri_vytahu);
+        tv_rameno_inp_suc_na_v = view.findViewById(R.id.tv_rameno_inp_vedla_je_suc);
+        tv_rameno_inp_rameno_vytah_dole = view.findViewById(R.id.tv_rameno_inp_vytah_dole);
+        tv_rameno_out_extruder = view.findViewById(R.id.tv_rameno_out_extruder);
+        tv_rameno_out_rameno_kz = view.findViewById(R.id.tv_rameno_out_rameno_kz);
+        tv_rameno_out_rameno_kv = view.findViewById(R.id.tv_rameno_out_rameno_kv);
+        tv_rameno_out_odfuk = view.findViewById(R.id.tv_rameno_out_odfuk);
+        tv_rameno_out_prisavka = view.findViewById(R.id.tv_rameno_out_prisavka);
+        tv_rameno_out_manual_rameno = view.findViewById(R.id.tv_rameno_out_manual_rameno);
+        tv_rameno_out_auto_rameno = view.findViewById(R.id.tv_rameno_out_auto_rameno);
+        tv_rameno_out_polo_automaticky_rameno = view.findViewById(R.id.tv_rameno_out_polo_automaticky_rameno);
+
+        /**
+         * List  textViews obsahujúci všetky textové polia, ktoré sa majú zobraziť alebo skryť po stlačení tlačidla buttonAnimateShow.
+         */
+        List<TextView> textViews = Arrays.asList(
+                tv_rameno_inp_prisiaty_vyrobok,
+                tv_rameno_inp_dom_poloha,
+                tv_rameno_inp_vysunuty_extruder,
+                tv_rameno_inp_prazdny_zasobnik,
+                tv_rameno_inp_rameno_pri_z,
+                tv_rameno_inp_rameno_pri_v,
+                tv_rameno_inp_suc_na_v,
+                tv_rameno_inp_rameno_vytah_dole,
+
+                tv_rameno_out_extruder,
+                tv_rameno_out_rameno_kz,
+                tv_rameno_out_rameno_kv,
+                tv_rameno_out_odfuk,
+                tv_rameno_out_prisavka,
+                tv_rameno_out_manual_rameno,
+                tv_rameno_out_auto_rameno,
+                tv_rameno_out_polo_automaticky_rameno
+        );
+        iv_rameno_arm = view.findViewById(R.id.iv_rameno_arm);
+        iv_rameno_puk = view.findViewById(R.id.iv_rameno_puk);
+        iv_center_circle = view.findViewById(R.id.iv_center_circle);
+        buttonAnimateShow= view.findViewById(R.id.btn_animate_show);
+        loadData();
+        /**
+         * Metóda setOnCheckedChangeListener slúži na zistenie, či je switchReadRameno zapnutý alebo vypnutý.
+         * Ak je zapnutý, spustí sa metóda startCountdown, ktorá spustí časovač, ktorý každých casovac_interval milisekúnd
+         * zavolá metódu ReadPlc.
+         * Ak je vypnutý, zruší sa časovač.
+         */
+        switchReadRameno.setOnCheckedChangeListener((v, event) -> {
+                if (switchReadRameno.isChecked()) {
+                    startCountdown();
+                } else {
+                    cancelCountdown();
+                }
         });
 
     }

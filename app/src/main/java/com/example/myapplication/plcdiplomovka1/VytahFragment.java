@@ -164,7 +164,21 @@ public class VytahFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        //loadData();
+        // Get the MainActivity
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            // Get the BottomNavigationView from the MainActivity
+            BottomNavigationView bottomNavigationView = mainActivity.findViewById(R.id.bottomNavigationView);
+            // Set the selected item
+            if (bottomNavigationView != null && bottomNavigationView.getSelectedItemId() != R.id.nav_vytah){
+                bottomNavigationView.setSelectedItemId(R.id.nav_vytah);
+            }
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
