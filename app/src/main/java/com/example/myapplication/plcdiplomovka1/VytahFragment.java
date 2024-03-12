@@ -235,7 +235,6 @@ public class VytahFragment extends Fragment {
         buttonVytahHore = view.findViewById(R.id.buttonVytahHore);
         buttonVytahDole = view.findViewById(R.id.buttonVytahDole);
         buttonPiest = view.findViewById(R.id.buttonPiest);
-        btn_experimenty = view.findViewById(R.id.btn_experimenty);
         buttonAutoVytah = view.findViewById(R.id.buttonAutoVytah);
         buttonManualVytah = view.findViewById(R.id.buttonManualVytah);
         buttonStartVytah = view.findViewById(R.id.btn_start_vytah);
