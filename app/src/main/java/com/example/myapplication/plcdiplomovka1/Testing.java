@@ -1,26 +1,19 @@
 package com.example.myapplication.plcdiplomovka1;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class Testing extends Fragment {
     public Testing() {
@@ -36,67 +29,97 @@ public class Testing extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    private Button buttonLeft;
-    private Button buttonRight;
+    private Button buttonInputs;
+    private Button buttonOutputs;
+    private Button buttonTest;
+    private TextView textViewSnimacL;
+    private TextView textViewSnimacP;
+    private TextInputLayout layoutSnimacLOffset;
+    private TextInputLayout layoutSnimacPOffset;
+    private TextInputLayout layoutSnimacLBit;
+    private TextInputLayout layoutSnimacPBit;
+    private ConstraintLayout layoutInputs;
+    private ConstraintLayout layoutOutputs;
 
-    private ImageView Piest;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_testing, container, false);
-        buttonLeft = view.findViewById(R.id.buttonLeft);
-        buttonRight = view.findViewById(R.id.buttonRight);
-        Piest = view.findViewById(R.id.imagePiesttest);
+        //buttonLeft = view.findViewById(R.id.buttonLeft);
+        //buttonRight = view.findViewById(R.id.buttonRight);
+        //Piest = view.findViewById(R.id.imagePiesttest);
+        buttonInputs = view.findViewById(R.id.btn_show_inputs);
+        buttonOutputs = view.findViewById(R.id.btn_show_outputs);
+        layoutInputs = view.findViewById(R.id.constraint_layout_inputs);
+        layoutOutputs = view.findViewById(R.id.constraint_layout_outputs);
+
+
+
+
+
+        layoutInputs.setVisibility(View.GONE);
+        buttonInputs.setText(R.string.action_show);
+        buttonInputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
+
+        layoutOutputs.setVisibility(View.GONE);
+        buttonOutputs.setText(R.string.action_show);
+        buttonOutputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
+
         //when button is clicked
-        buttonLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get the current layout parameters
-                final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) Piest.getLayoutParams();
 
-                // Create a ValueAnimator that animates from the current end margin to 0
-                ValueAnimator animator = ValueAnimator.ofInt(params.getMarginEnd(), 320);
-                animator.addUpdateListener(animation -> {
-                    // Update the end margin in the layout parameters
-                    params.setMarginEnd((Integer) animation.getAnimatedValue());
-                    Piest.setLayoutParams(params);
-                    Piest.getParent().requestLayout();
-                });
+        /*buttonInputs.setOnClickListener(v -> {
 
-                // Set the duration of the animation
-                animator.setDuration(300);
-
-                // Start the animation
-                animator.start();
+        if (listTextViewInputs.get(0).getVisibility()==View.GONE){
+            buttonInputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_play_arrow_24, 0);
+            buttonInputs.setText(R.string.schovat);
+            for (int i = 0; i < 2; i++) {
+                listTextViewInputs.get(i).setVisibility(View.VISIBLE);
+                listTextInputLayoutOffsetsInputs.get(i).setVisibility(View.VISIBLE);
+                listTextInputLayoutBitsInputs.get(i).setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            buttonInputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
+            buttonInputs.setText(R.string.zobrazit);
+            for (int i = 0; i < 2; i++) {
+                listTextViewInputs.get(i).setVisibility(View.GONE);
+                listTextInputLayoutOffsetsInputs.get(i).setVisibility(View.GONE);
+                listTextInputLayoutBitsInputs.get(i).setVisibility(View.GONE);
+            }
+        }
+        });*/
+        buttonInputs.setOnClickListener(v -> {
+            if (layoutInputs.getVisibility() == View.VISIBLE) {
+                buttonInputs.setText(R.string.action_show);
+                buttonInputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
+                layoutInputs.setVisibility(View.GONE);
+            } else {
+                layoutInputs.setVisibility(View.VISIBLE);
+                buttonInputs.setText(R.string.action_hide);
+                buttonInputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_play_arrow_24, 0);
             }
         });
-        buttonRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get the current layout parameters
-                final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) Piest.getLayoutParams();
 
-                // Create a ValueAnimator that animates from the current end margin to 0
-                ValueAnimator animator = ValueAnimator.ofInt(params.getMarginEnd(), 0);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        // Update the end margin in the layout parameters
-                        params.setMarginEnd((Integer) animation.getAnimatedValue());
-                        Piest.setLayoutParams(params);
-                        Piest.getParent().requestLayout();
-                    }
-                });
+        buttonOutputs.setOnClickListener(v -> {
 
-                // Set the duration of the animation
-                animator.setDuration(300);
-
-                // Start the animation
-                animator.start();
+            if (layoutOutputs.getVisibility() == View.VISIBLE) {
+                buttonOutputs.setText(R.string.action_show);
+                buttonOutputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
+                layoutOutputs.setVisibility(View.GONE);
+            } else {
+                layoutOutputs.setVisibility(View.VISIBLE);
+                buttonOutputs.setText(R.string.action_hide);
+                buttonOutputs.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_play_arrow_24, 0);
             }
         });
+
+
+
+        //buttonOutputs same as buttonInputs
+
         return view;
 
     }
+
 }
