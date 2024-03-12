@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PLCApp</string>
     <string name="ip_adresa">IP Adresa</string>
     <string name="diplomovka">Diplomovka</string>
     <string name="edit_values">Dalšia strana</string>
-
     <string name="action_read">Prečítať</string>
     <string name="action_write">Zapísať</string>
     <string name="action_disconnect">Odpojiť</string>
@@ -17,21 +17,13 @@
     <string name="action_hide">Schovať</string>
     <string name="action_show">Zobraziť</string>
     <string name="action_save">Uložiť</string>
-    <string name="action_stop">Stop</string>
-    <string name="action_start">Štart</string>
     <string name="action_start_stop">Štart/Stop</string>
-
     <string name="read_value">Prečítaná hodnota</string>
     <string name="write_value">Zapísaná hodnota</string>
-
     <string name="error">Chyba</string>
-
     <string name="inputs">Vstupy</string>
     <string name="outputs">Výstupy</string>
     <string name="memory">Pamäť</string>
-
-
-
     <string name="db_offset">Byte DB</string>
     <string name="db_number">Číslo DB</string>
     <string name="db_value">Hodnoty DB</string>
@@ -39,31 +31,24 @@
     <string name="elevator_input_sensor_l">Snimac L</string>
     <string name="elevator_input_sensor_p">Snimac P</string>
     <string name="elevator_input_sensor_h">Snimac H</string>
-
     <string name="elevator_input_elevator_up">Snimac V hore</string>
     <string name="elevator_input_elevator_down">Snimac V dole</string>
-
-    <string name="elevator_input_arm_at_elev">Rameno pri V</string>
-    <string name="elevator_input_extruder">Piest vysunutý</string>
-
-    <string name="elevator_output_extruder">Piest</string>
-    <string name="elevator_output_air_road">Dráha</string>
-    <string name="elevator_output_elevator_up">Výťah hore</string>
-    <string name="elevator_output_elevator_down">Výťah dole</string>
-
-    <string name="mode_manual">Manuálny režim</string>
-    <string name="mode_automatic">Automatický režim</string>
-    <string name="mode_semi_automatic">Polo-Automatický režim</string>
-
-
-
     <string name="menu_elevator">Výťah</string>
     <string name="menu_arm">Rameno</string>
     <string name="menu_settings">Nastavenia</string>
     <string name="menu_home">Domov</string>
-
+    <string name="elevator_input_arm_at_elev">Rameno pri V</string>
+    <string name="elevator_input_extruder">Piest vysunutý</string>
+    <string name="elevator_output_extruder">Piest</string>
+    <string name="elevator_output_air_road">Dráha</string>
+    <string name="elevator_output_elevator_up">Výťah hore</string>
+    <string name="elevator_output_elevator_down">Výťah dole</string>
+    <string name="mode_manual">Manuálny režim</string>
+    <string name="mode_automatic">Automatický režim</string>
+    <string name="mode_semi_automatic">Polo-Automatický režim</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_start">Štart</string>
     <string name="action_save_btn_desc">Tlačidlo na uloženie nastavení</string>
-
     <string name="arm.input.sucktioned_on">Prisiaty výrobok</string>
     <string name="arm.input.home_position">Domáca poloha</string>
     <string name="arm.input.extruder_extended">Vysunutý extrúder</string>
@@ -72,12 +57,10 @@
     <string name="arm.input.arm_at_elevat">Rameno pri výťahu</string>
     <string name="arm.input.is_part">Súčiastka na výťahu</string>
     <string name="arm.input.elevator_down">Výťah dole</string>
-
     <string name="arm.output.extruder">Extrúder</string>
     <string name="arm.output.arm_to_elevator">Rameno KV</string>
     <string name="arm.output.arm_to_buffer">Rameno KZ</string>
     <string name="arm.output.suction">Prísavka</string>
     <string name="arm.output.air_out">Odfuk</string>
-
 
 </resources>
