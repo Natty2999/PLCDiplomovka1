@@ -50,7 +50,7 @@
             android:id="@+id/TextInputDBNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/db_cislo"
+            android:hint="@string/db_number"
             android:inputType="number"
             android:text="1"
             android:textColorHint="#546E7A" />
@@ -88,7 +88,7 @@
             android:id="@+id/TextInputDBBit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="DB Bit"
+            android:hint="@string/db_bit"
             android:inputType="number"
             android:text="0" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
-        android:text="@string/hodnoty_db"
+        android:text="@string/db_value"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Write"
+        android:text="@string/action_write"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout6"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout6" />
@@ -125,7 +125,7 @@
             android:id="@+id/TextInputWriteValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Zapisovaná hodnota" />
+            android:hint="@string/write_value" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -133,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/read"
+        android:text="@string/action_read"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout3"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
@@ -143,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Debug.Text"
+        android:text="@string/error"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
@@ -159,7 +159,7 @@
             android:id="@+id/TextInputReadValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/precitana_hodnota"
+            android:hint="@string/read_value"
             android:textColorHint="#546E7A" />
     </com.google.android.material.textfield.TextInputLayout>
 
