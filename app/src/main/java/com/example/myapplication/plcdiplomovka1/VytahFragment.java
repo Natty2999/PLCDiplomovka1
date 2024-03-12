@@ -2,14 +2,17 @@ package com.example.myapplication.plcdiplomovka1;
 
 
 import static java.lang.Math.floor;
+import static java.lang.Math.max;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,11 +20,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import Moka7.S7;
 import Moka7.S7Client;
@@ -33,11 +40,12 @@ import Moka7.S7Client;
  */
 
 public class VytahFragment extends Fragment {
-
+    //region Addreses
     private String vytahIPAdresa;
     private String snimace_DBNumber;
     // Snimace
     // Offsety
+    private int maxOffset = 0;
     private int snimac_L_DBOffset;
     private int snimac_P_DBOffset;
     private int snimac_H_DBOffset;
@@ -60,13 +68,34 @@ public class VytahFragment extends Fragment {
     private int vystup_Vytah_H_DBOffset;
     private int vystup_Vytah_D_DBOffset;
     private int vystup_Manual_DBOffset;
+    private int vystup_Auto_Polo_DBOffset;
+    private int vystup_Start_Vytah_DBOffset;
+    private int vystup_Stop_Vytah_DBOffset;
     //Bity
     private int vystup_Draha_DBBit;
     private int vystup_Piest_DBBit;
     private int vystup_Vytah_H_DBBit;
     private int vystup_Vytah_D_DBBit;
     private int vystup_Manual_DBBit;
+    private int vystup_Auto_Polo_DBBit;
+    private int vystup_Start_Vytah_DBBit;
+    private int vystup_Stop_Vytah_DBBit;
+    //endregion
 
+    //region Buttons
+    Button buttonDraha ;
+    Button buttonVytahHore;
+    Button buttonVytahDole;
+    Button buttonPiest ;
+    Button btn_experimenty;
+    Button buttonStartVytah;
+    Button buttonStopVytah;
+
+    Button buttonAutoVytah;
+    Button buttonManualVytah;
+    //endregion
+
+    //region ImageView
     private ImageView imageViewDrahaVzduch;
     private ImageView imageViewVytahHore;
     private ImageView imageViewVytahDole;
@@ -77,13 +106,11 @@ public class VytahFragment extends Fragment {
     private ImageView imageSuciastka;
     private ImageView imagePiest;
     private ImageView imagePiestVysuvanie;
-    private ImageView imageDraha;
+    //endregion
+
     private CountDownTimer countDownTimer;
-    private Button buttonDraha;
-    private Button buttonVytahHore;
-    private Button buttonVytahDole;
-    private Button buttonPiest;
     private MaterialSwitch switchRead;
+    //region TextView
     private TextView vytahNadpis;
     private TextView errorText;
     private TextView i_snimac_l;
@@ -98,14 +125,18 @@ public class VytahFragment extends Fragment {
     private TextView q_piest;
     private TextView q_manual;
     private TextView q_draha;
+    //endregion
+
+    //region Variables
     private int counter = 10;
     private int casovac_interval = 100;
     private int casovac_time = 50000;
-
     private boolean isPiestVysunuty = false;
     private boolean isVytahHore = false;
     private boolean isVytahDole = false;
+    //endregion
 
+    //region SharedPrefs
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String IP_ADRESA_VYTAH = "ipAdresaVytah";
     private static final String SNIMACE_DBNUMBER = "snimaceDBNumber";
@@ -131,16 +162,22 @@ public class VytahFragment extends Fragment {
     private static final String VYSTUP_PIEST_DBOFFSET = "vystup_Piest_DBOffset";
     private static final String VYSTUP_VYTAH_H_DBOFFSET = "vystup_Vytah_H_DBOffset";
     private static final String VYSTUP_VYTAH_D_DBOFFSET = "vystup_Vytah_D_DBOffset";
-    private static final String VYSTUP_MANUAL_DBOFFSET = "vystup_Manual_DBOffset";
-
+    private static final String VYSTUP_MANUAL_DBOFFSET = "vystup_Vytah_Manual_DBOffset";
+    private static final String VYSTUP_AUTO_POLO_DBOFFSET = "vystup_Vytah_Auto_Polo_DBOffset";
+    private static final String VYSTUP_START_VYTAH_DBOFFSET = "vystup_start_vytah_dboffset";
+    private static final String VYSTUP_STOP_VYTAH_DBOFFSET = "vystup_stop_vytah_dboffset";
     //output Bits
     private static final String VYSTUP_DRAHA_DBBIT = "vystup_Draha_DBBit";
     private static final String VYSTUP_PIEST_DBBIT = "vystup_Piest_DBBit";
     private static final String VYSTUP_VYTAH_H_DBBIT = "vystup_Vytah_H_DBBit";
     private static final String VYSTUP_VYTAH_D_DBBIT = "vystup_Vytah_D_DBBit";
-    private static final String VYSTUP_MANUAL_DBBIT = "vystup_Manual_DBBit";
+    private static final String VYSTUP_MANUAL_DBBIT = "vystup_Vytah_Manual_DBBit";
+    private static final String VYSTUP_AUTO_POLO_DBBIT = "vystup_Vytah_Auto_Polo_DBBit";
 
-    private int functionCalled = 0;
+    private static final String VYSTUP_START_VYTAH_DBBIT = "vystup_start_vytah_dbbit";
+    private static final String VYSTUP_STOP_VYTAH_DBBIT = "vystup_stop_vytah_dbbit";
+    //endregion
+
 
 
 
@@ -153,7 +190,7 @@ public class VytahFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DefaultBitEditing.
+     * @return A new instance of fragment VytahFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static VytahFragment newInstance(String param1, String param2) {
@@ -183,6 +220,9 @@ public class VytahFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    S7Client client = new S7Client();
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    Handler handler = new Handler(Looper.getMainLooper());
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -195,6 +235,11 @@ public class VytahFragment extends Fragment {
         buttonVytahHore = view.findViewById(R.id.buttonVytahHore);
         buttonVytahDole = view.findViewById(R.id.buttonVytahDole);
         buttonPiest = view.findViewById(R.id.buttonPiest);
+        btn_experimenty = view.findViewById(R.id.btn_experimenty);
+        buttonAutoVytah = view.findViewById(R.id.buttonAutoVytah);
+        buttonManualVytah = view.findViewById(R.id.buttonManualVytah);
+        buttonStartVytah = view.findViewById(R.id.btn_start_vytah);
+        buttonStopVytah = view.findViewById(R.id.btn_stop_vytah);
         //switch
         switchRead = view.findViewById(R.id.switchReadVytah);
         //vstupy
@@ -220,17 +265,17 @@ public class VytahFragment extends Fragment {
         imageSuciastka = view.findViewById(R.id.imageSuciastka);
         imagePiest = view.findViewById(R.id.imagePiest);
         imagePiestVysuvanie = view.findViewById(R.id.imagePiestVysuvanie);
-        imageDraha = view.findViewById(R.id.imageDraha);
+        ImageView imageDraha = view.findViewById(R.id.imageDraha);
         //text
         vytahNadpis = view.findViewById(R.id.vytahNadpis);
         loadData();
         int falseRed = getResources().getColor(R.color.falseRed,  requireActivity().getTheme());
-        int trueGreen = getResources().getColor(R.color.trueGreen, requireActivity().getTheme());
-        setAllToRed(falseRed);
+        setAllToColor(falseRed);
+
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 startCountdown();
-                counter =100;
+                counter = 100;
             } else {
                 cancelCountdown();
             }
@@ -240,63 +285,77 @@ public class VytahFragment extends Fragment {
         buttonDraha.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 //write bit to 1
-                new PlcWriter(Integer.parseInt(snimace_DBNumber),vystup_Draha_DBOffset,vystup_Draha_DBBit,true).execute();
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Draha_DBOffset, vystup_Draha_DBBit, true);
 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 //write bit to 0
-                new PlcWriter(Integer.parseInt(snimace_DBNumber),vystup_Draha_DBOffset,vystup_Draha_DBBit,false).execute();
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Draha_DBOffset, vystup_Draha_DBBit, false);
             }
-            return true;
+            return false;
         });
         buttonPiest.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 //write bit to 1
-                new PlcWriter(Integer.parseInt(snimace_DBNumber),vystup_Piest_DBOffset,vystup_Piest_DBBit,true).execute();
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Piest_DBOffset, vystup_Piest_DBBit, true);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 //write bit to 0
-                new PlcWriter(Integer.parseInt(snimace_DBNumber),vystup_Piest_DBOffset,vystup_Piest_DBBit,false).execute();
-                //Toast.makeText(getContext(), "Piest sa vysunul "+vystup_Piest_DBOffset+"."+vystup_Piest_DBBit, Toast.LENGTH_SHORT).show();
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Piest_DBOffset, vystup_Piest_DBBit, false);
             }
-            return true;
+            return false;
         });
         //the code
         buttonVytahDole.setOnClickListener(v -> {
-            new PlcWriter(
-                    Integer.parseInt(snimace_DBNumber),
-                    vystup_Vytah_D_DBOffset,
-                    vystup_Vytah_D_DBBit,
-                    true
-            ).execute();
-            new PlcWriter(
-                    Integer.parseInt(snimace_DBNumber),
-                    vystup_Vytah_H_DBOffset,
-                    vystup_Vytah_H_DBBit,
-                    false
-            ).execute();
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, false) == 0){
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, true);
+            }
 
+
+        });
+        buttonStartVytah.setOnClickListener(v -> {
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, false) == 0){
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, true);
+            }
+        });
+        buttonStopVytah.setOnClickListener(v -> {
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, false) == 0){
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, true);
+            }
         });
         buttonVytahHore.setOnClickListener(v -> {
-            new PlcWriter(
-                    Integer.parseInt(snimace_DBNumber),
-                    vystup_Vytah_H_DBOffset,
-                    vystup_Vytah_H_DBBit,
-                    true
-            ).execute();
-            new PlcWriter(
-                    Integer.parseInt(snimace_DBNumber),
-                    vystup_Vytah_D_DBOffset,
-                    vystup_Vytah_D_DBBit,
-                    false
-            ).execute();
-
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, false) == 0){
+            IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, true);
+            }
         });
+        buttonAutoVytah.setOnClickListener(v -> {
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Manual_DBOffset, vystup_Manual_DBBit, false) == 0){
+            IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Auto_Polo_DBOffset, vystup_Auto_Polo_DBBit, true);
+            }
+        });
+        buttonManualVytah.setOnClickListener(v -> {
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Auto_Polo_DBOffset, vystup_Auto_Polo_DBBit, false) == 0){
+                if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Manual_DBOffset, vystup_Manual_DBBit, true) == 0) {
+                    if (!switchRead.isChecked()) {
+                        Snackbar.make(view, "Not monitoring!", Snackbar.LENGTH_LONG).show();
+                        // Assuming 'view' is your view that you want to highlight
+                        switchRead.setBackgroundColor(Color.RED); // Change to your highlight color
 
+                        //Create a new Handler to reset the color after 1 second
+                        new Handler().postDelayed(() -> {
+                            switchRead.setBackgroundColor(Color.TRANSPARENT); // Change to your default color
+                        }, 1000); // Delay of 1 second
+                    }
+                }
+            }
+        });
+        maxOffset =  getMaxOffset(new Integer[]{snimac_L_DBOffset, snimac_P_DBOffset, snimac_H_DBOffset, snimac_Vytah_H_DBOffset, snimac_Vytah_D_DBOffset, snimac_Rameno_DBoffset, snimac_Piest_DBOffset, vystup_Draha_DBOffset, vystup_Piest_DBOffset, vystup_Vytah_H_DBOffset, vystup_Vytah_D_DBOffset, vystup_Manual_DBOffset, vystup_Auto_Polo_DBOffset, vystup_Start_Vytah_DBOffset, vystup_Stop_Vytah_DBOffset});
+        //Toast.makeText(getContext(), "Max offset: " + maxOffset, Toast.LENGTH_SHORT).show();
+        ReadPlc();
         return view;
     }
     public void loadData(){
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-            vytahNadpis.setText(String.format("%s - %s", getResources().getString(R.string.vytah), sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138")));
+            vytahNadpis.setText(String.format("%s - %s", getResources().getString(R.string.menu_elevator), sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138")));
             vytahIPAdresa = sharedPreferences.getString(IP_ADRESA_VYTAH, "192.168.0.138");
             snimace_DBNumber = sharedPreferences.getString(SNIMACE_DBNUMBER, "1");
             // Snimace
@@ -323,21 +382,34 @@ public class VytahFragment extends Fragment {
             vystup_Vytah_H_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBOFFSET, "2"));
             vystup_Vytah_D_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBOFFSET, "2"));
             vystup_Manual_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBOFFSET, "2"));
+            vystup_Auto_Polo_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_AUTO_POLO_DBOFFSET, "2"));
+            vystup_Start_Vytah_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_START_VYTAH_DBOFFSET, "3"));
+            vystup_Stop_Vytah_DBOffset = Integer.parseInt(sharedPreferences.getString(VYSTUP_STOP_VYTAH_DBOFFSET, "3"));
 
             vystup_Draha_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_DRAHA_DBBIT, "3"));
             vystup_Piest_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_PIEST_DBBIT, "2"));
             vystup_Vytah_H_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_H_DBBIT, "1"));
             vystup_Vytah_D_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_VYTAH_D_DBBIT, "0"));
             vystup_Manual_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_MANUAL_DBBIT, "4"));
+            vystup_Auto_Polo_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_AUTO_POLO_DBBIT, "7"));
+            vystup_Start_Vytah_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_START_VYTAH_DBBIT, "0"));
+            vystup_Stop_Vytah_DBBit = Integer.parseInt(sharedPreferences.getString(VYSTUP_STOP_VYTAH_DBBIT, "1"));
         }
     }
+    /**
+     * Metóda startCountdown spustí odpočítavanie.
+     * Táto metóda najprv zruší existujúce odpočítavanie (ak existuje) a potom vytvorí nový CountDownTimer.
+     * CountDownTimer je nastavený na odpočítavanie od hodnoty casovac_time s intervalom casovac_interval.
+     * Počas každého intervalu sa volá metóda ReadPlc, ktorá číta dáta z PLC.
+     * Keď odpočítavanie skončí, prepne sa prepínač switchRead na vypnutý stav.
+     */
     private void startCountdown() {
         cancelCountdown(); // Cancel any existing countdown
         countDownTimer = new CountDownTimer(casovac_time, casovac_interval) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // Update UI with current count
-                new PlcReader().execute();
+                ReadPlc();
                 //System.out.println("Countdown: " + counter);
                 counter--;
             }
@@ -351,18 +423,37 @@ public class VytahFragment extends Fragment {
         };
         countDownTimer.start();
     }
+    /**
+     * Metóda cancelCountdown zruší existujúce odpočítavanie.
+     * Táto metóda kontroluje, či je countDownTimer inicializovaný a ak áno, zruší ho.
+     */
     private void cancelCountdown() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }
-    S7Client client = new S7Client();
-    private class PlcReader extends AsyncTask<String,Void,String> {
-        String ret = "";
-        byte[] data = new byte[3];
+
+    /**
+    * Metóda ReadPlc je zodpovedná za čítanie dát z PLC.
+    * Táto metóda vytvára nový vlákno, ktoré sa pripojí na PLC, prečíta dáta a aktualizuje UI.
+    * Ak nastane chyba pri pripojení alebo čítaní dát, chybová správa sa zobrazí v TextView errorText.
+    * Po úspešnom prečítaní dát sa aktualizujú farby TextView a ImageView na základe prečítaných hodnôt.
+    * Táto metóda tiež kontroluje zmeny stavu výťahu a piestu a spúšťa animácie týchto komponentov.
+    */
+    private int getMaxOffset(Integer[] arrayOfOffsets){
+        int maxOffset = 0;
+        for (int offset : arrayOfOffsets){
+            maxOffset = max(maxOffset, offset);
+        }
+        return maxOffset;
+    }
+    private void ReadPlc(){
+        AtomicReference<String> ret = new AtomicReference<>("");
+        byte[] data = new byte[maxOffset+1];
         boolean[][] dataBools = new boolean[data.length][8];
-        @Override
-        protected String doInBackground(String... params) {
+
+        executorService.execute(() ->{
+            //code to do in background
             try{
                 client.SetConnectionType(S7.S7_BASIC);
                 //inputs
@@ -371,211 +462,200 @@ public class VytahFragment extends Fragment {
                 int res = client.ConnectTo(vytahIPAdresa,0,2);// ak je S7-300 tak je vždy 0,2
 
                 if(res == 0){//ak je 0 tak je pripojenie úspešné
-                    res = client.ReadArea(S7.S7AreaDB, Integer.parseInt(snimace_DBNumber),dbOffsetInputs,3,data);
+                    res = client.ReadArea(S7.S7AreaDB, Integer.parseInt(snimace_DBNumber),dbOffsetInputs,maxOffset+1,data);
                     //log res in console
-
-                    for(int i = 0; i < data.length; i++){
-                        boolean[] dataBool = new boolean[8];
-                        for (int j = 0; j < dataBool.length; j++) {
-                            dataBool[j] = S7.GetBitAt(data,i,j);
+                    if (res == 0){
+                        for(int i = 0; i < data.length; i++){
+                            boolean[] dataBool = new boolean[8];
+                            for (int j = 0; j < dataBool.length; j++) {
+                                dataBool[j] = S7.GetBitAt(data,i,j);
+                            }
+                            dataBools[i] = dataBool;
                         }
-                        dataBools[i] = dataBool;
+                    }else{
+                        System.out.println("Error: " + S7Client.ErrorText(res));
+                        ret.set("Read Error: " + S7Client.ErrorText(res));
                     }
                 }else{
                     System.out.println("Error: " + S7Client.ErrorText(res));
-                    ret = "Error: " + S7Client.ErrorText(res);
+                    ret.set("Connection Error: " + S7Client.ErrorText(res));
                 }
                 client.Disconnect();
             }catch (Exception e){
-                ret = e.getMessage();
+                ret.set(e.getMessage());
                 Thread.interrupted();
             }
-            return "executed";
-        }
 
-        @Override
-        protected void onPostExecute(String result){
+            handler.post(() -> {
+                //update UI
 
-            if(ret.toLowerCase().contains("error")){
-                errorText.setText(ret);
-            }else {
-                //inputs
-                //log dataBools[snimac_L_DBOffset][snimac_L_DBBit] in console
+                if(ret.get().toLowerCase().contains("error")){
+                    errorText.setText(ret.get());
+                }else {
+                    //inputs
+                    //log dataBools[snimac_L_DBOffset][snimac_L_DBBit] in console
 
-                i_snimac_l.setTextColor(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_snimac_p.setTextColor(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_snimac_h.setTextColor(dataBools[snimac_H_DBOffset][snimac_H_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
-                i_rameno_pritomne.setTextColor(dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_vytah_h.setTextColor(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_vytah_d.setTextColor(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                i_piest_vysunuty.setTextColor(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, getActivity().getTheme()));
-                //outputs
-                q_draha.setTextColor(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                q_vytah_h.setTextColor(dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                q_vytah_d.setTextColor(dataBools[vystup_Vytah_D_DBOffset][vystup_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                q_piest.setTextColor(dataBools[vystup_Piest_DBOffset][vystup_Piest_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                q_manual.setTextColor(dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                //ikony
-                imageViewDrahaVzduch.setColorFilter(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                imageViewVytahHore.setColorFilter(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                imageViewVytahDole.setColorFilter(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                imageViewSnimacL.setColorFilter(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                imageViewSnimacP.setColorFilter(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, getActivity().getTheme()) : getResources().getColor(R.color.falseRed, getActivity().getTheme()));
-                //imageSuciastka , if isnimacl or isnimacp or isnimach is true then set image to visible
-                //isnimach has opposite logic
-                if(dataBools[snimac_L_DBOffset][snimac_L_DBBit] || dataBools[snimac_P_DBOffset][snimac_P_DBBit] || !dataBools[snimac_H_DBOffset][snimac_H_DBBit]){
-                    imageSuciastka.setVisibility(View.VISIBLE);
-                }else{
-                    imageSuciastka.setVisibility(View.INVISIBLE);
-                }
-                //imagePiest , if isnimacpiest is true then animate image to move to the right
-                if (isPiestVysunuty != dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
-                    if(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
+                    i_snimac_l.setTextColor(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    i_snimac_p.setTextColor(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    i_snimac_h.setTextColor(dataBools[snimac_H_DBOffset][snimac_H_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, requireActivity().getTheme()));
+                    i_rameno_pritomne.setTextColor(dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    i_vytah_h.setTextColor(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    i_vytah_d.setTextColor(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    i_piest_vysunuty.setTextColor(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit] ? getResources().getColor(R.color.falseRed, requireActivity().getTheme()) : getResources().getColor(R.color.trueGreen, requireActivity().getTheme()));
+                    //outputs
+                    q_draha.setTextColor(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    q_vytah_h.setTextColor(dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    q_vytah_d.setTextColor(dataBools[vystup_Vytah_D_DBOffset][vystup_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    q_piest.setTextColor(dataBools[vystup_Piest_DBOffset][vystup_Piest_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    q_manual.setTextColor(dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
 
-                        animatePiest(14,300);
+
+                    buttonAutoVytah.setBackgroundColor(!dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    buttonManualVytah.setBackgroundColor(dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    buttonStartVytah.setBackgroundColor(dataBools[vystup_Start_Vytah_DBOffset][vystup_Start_Vytah_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    buttonStopVytah.setBackgroundColor(dataBools[vystup_Stop_Vytah_DBOffset][vystup_Stop_Vytah_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    // ak je manualny mod tak sa tlacidla zablokuju
+                    boolean jeManual = dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit];
+                    buttonPiest.setEnabled(jeManual);
+                    buttonDraha.setEnabled(jeManual);
+                    buttonVytahHore.setEnabled(jeManual);
+                    buttonVytahDole.setEnabled(jeManual);
+
+                    if (!jeManual){
+                        buttonPiest.setBackgroundColor(getResources().getColor(R.color.material_button_background_disabled, requireActivity().getTheme()));
+                        buttonDraha.setBackgroundColor(getResources().getColor(R.color.material_button_background_disabled, requireActivity().getTheme()));
+                        buttonVytahHore.setBackgroundColor(getResources().getColor(R.color.material_button_background_disabled, requireActivity().getTheme()));
+                        buttonVytahDole.setBackgroundColor(getResources().getColor(R.color.material_button_background_disabled, requireActivity().getTheme()));
                     }else {
-                        animatePiest(96,300);
+                        buttonDraha.setBackgroundColor(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                        buttonVytahHore.setBackgroundColor(dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                        buttonVytahDole.setBackgroundColor(dataBools[vystup_Vytah_D_DBOffset][vystup_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                        buttonPiest.setBackgroundColor(dataBools[vystup_Piest_DBOffset][vystup_Piest_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
                     }
-                }
-                isPiestVysunuty = dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit];
-                boolean isVytahD = isVytahD(dataBools);
-                boolean isVytahH = isVytahH(dataBools);
-                boolean isVytahDoleNow = isVytahD && !isVytahH;
-                boolean isVytahHoreNow = isVytahH && !isVytahD;
 
-                if(isVytahHore != isVytahHoreNow ){
-                    if(isVytahH){
+                    //ikony
+                    imageViewDrahaVzduch.setColorFilter(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    imageViewVytahHore.setColorFilter(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    imageViewVytahDole.setColorFilter(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    imageViewSnimacL.setColorFilter(dataBools[snimac_L_DBOffset][snimac_L_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    imageViewSnimacP.setColorFilter(dataBools[snimac_P_DBOffset][snimac_P_DBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
+                    //imageSuciastka , if isnimacl or isnimacp or isnimach is true then set image to visible
+                    //isnimach has opposite logic
 
-                        animateVytah(232,500);
+
+
+
+                    if(dataBools[snimac_L_DBOffset][snimac_L_DBBit] || dataBools[snimac_P_DBOffset][snimac_P_DBBit] || !dataBools[snimac_H_DBOffset][snimac_H_DBBit]){
+                        imageSuciastka.setVisibility(View.VISIBLE);
+                    }else{
+                        imageSuciastka.setVisibility(View.INVISIBLE);
                     }
-                }
-                if(isVytahDole != isVytahDoleNow){
-                    if(isVytahD){
-                    animateVytah(52,500);
+                    //imagePiest , if isnimacpiest is true then animate image to move to the right
+                    if (isPiestVysunuty != dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
+                        if(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
+
+                            animatePiest(14,300);
+                        }else {
+                            animatePiest(96,300);
+                        }
                     }
+                    isPiestVysunuty = dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit];
+                    boolean isVytahD = isVytahD(dataBools);
+                    boolean isVytahH = isVytahH(dataBools);
+                    boolean isVytahDoleNow = isVytahD && !isVytahH;
+                    boolean isVytahHoreNow = isVytahH && !isVytahD;
+
+                    if(isVytahHore != isVytahHoreNow ){
+                        if(isVytahH){
+
+                            animateVytah(232,500);
+                        }
+                    }
+                    if(isVytahDole != isVytahDoleNow){
+                        if(isVytahD){
+                            animateVytah(52,500);
+                        }
+                    }
+                    isVytahDole = isVytahDoleNow;
+                    isVytahHore = isVytahHoreNow;
+
                 }
-                isVytahDole = isVytahDoleNow;
-                isVytahHore = isVytahHoreNow;
-                System.out.println("Function called: "+functionCalled);
 
 
-                /*
-                //Print all values
-                System.out.println("i_snimac_l = "+(dataBools[snimac_L_DBOffset][snimac_L_DBBit]));
-                System.out.println("i_snimac_p = "+(dataBools[snimac_P_DBOffset][snimac_P_DBBit]));
-                System.out.println("i_snimac_h = "+(dataBools[snimac_H_DBOffset][snimac_H_DBBit]));
-                System.out.println("i_rameno_pritomne = "+(dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit]));
-                System.out.println("i_vytah_h = "+(dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit]));
-                System.out.println("i_vytah_d = "+(dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit]));
-                System.out.println("i_piest_vysunuty = "+(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]));
+            });
+        } );
 
-                System.out.println("q_draha = "+(dataBools[vystup_Draha_DBOffset][vystup_Draha_DBBit]));
-                System.out.println("q_vytah_h = "+(dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit]));
-                System.out.println("q_vytah_d = "+(dataBools[vystup_Vytah_D_DBOffset][vystup_Vytah_D_DBBit]));
-                System.out.println("q_piest = "+(dataBools[vystup_Piest_DBOffset][vystup_Piest_DBBit]));
-                System.out.println("q_manual = "+(dataBools[vystup_Manual_DBOffset][vystup_Manual_DBBit]));
-                */
-                /*
-                //Print all ADRESSES
-                System.out.println("i_snimac_l = "+snimac_L_DBOffset+"."+snimac_L_DBBit);
-                System.out.println("i_snimac_p = "+snimac_P_DBOffset+"."+snimac_P_DBBit);
-                System.out.println("i_snimac_h = "+snimac_H_DBOffset+"."+snimac_H_DBBit);
-                System.out.println("i_rameno_pritomne = "+snimac_Rameno_DBoffset+"."+snimac_Rameno_DBBit);
-                System.out.println("i_vytah_h = "+snimac_Vytah_H_DBOffset+"."+snimac_Vytah_H_DBBit);
-                System.out.println("i_vytah_d = "+snimac_Vytah_D_DBOffset+"."+snimac_Vytah_D_DBBit);
-                System.out.println("i_piest_vysunuty = "+snimac_Piest_DBOffset+"."+snimac_Piest_DBBit);
-
-                System.out.println("q_draha = "+vystup_Draha_DBOffset+"."+vystup_Draha_DBBit);
-                System.out.println("q_vytah_h = "+vystup_Vytah_H_DBOffset+"."+vystup_Vytah_H_DBBit);
-                System.out.println("q_vytah_d = "+vystup_Vytah_D_DBOffset+"."+vystup_Vytah_D_DBBit);
-                System.out.println("q_piest = "+vystup_Piest_DBOffset+"."+vystup_Piest_DBBit);
-                System.out.println("q_manual = "+vystup_Manual_DBOffset+"."+vystup_Manual_DBBit);
-                 */
-            }
-        }
     }
+    /**
+     * Metóda isVytahD kontroluje, či je výťah dole.
+     * Táto metóda porovnáva hodnoty snímača výťahu dole a výstupu výťahu dole.
+     * Ak je aspoň jedna z týchto hodnôt pravdivá, metóda vráti true, inak vráti false.
+     *
+     * @param dataBools Dvojrozmerné pole booleanov, ktoré obsahuje hodnoty všetkých snímačov a výstupov.
+     * @return boolean Hodnota true, ak je výťah dole, inak false.
+     */
     private boolean isVytahD(boolean[][] dataBools) {
-        functionCalled++;
         return dataBools[snimac_Vytah_D_DBOffset][snimac_Vytah_D_DBBit] || dataBools[vystup_Vytah_D_DBOffset][vystup_Vytah_D_DBBit];
     }
-
+    /**
+     * Metóda isVytahH kontroluje, či je výťah hore.
+     * Táto metóda porovnáva hodnoty snímača výťahu hore a výstupu výťahu hore.
+     * Ak je aspoň jedna z týchto hodnôt pravdivá, metóda vráti true, inak vráti false.
+     *
+     * @param dataBools Dvojrozmerné pole booleanov, ktoré obsahuje hodnoty všetkých snímačov a výstupov.
+     * @return boolean Hodnota true, ak je výťah hore, inak false.
+     */
     private boolean isVytahH(boolean[][] dataBools) {
-        functionCalled++;
         return dataBools[snimac_Vytah_H_DBOffset][snimac_Vytah_H_DBBit] || dataBools[vystup_Vytah_H_DBOffset][vystup_Vytah_H_DBBit];
     }
-    private class PlcWriter extends AsyncTask<String,Void,String> {
-        String ret = "";
-        int dbNumber;
-        int dbOffset;
-        int dbBit;
-        boolean writeValue;
-
-        // Constructor to accept DBNumber, DBBit, and DBOffset
-        public PlcWriter(int dbNumber, int dbOffset, int dbBit,boolean writeValue) {
-            this.dbNumber = dbNumber;
-            this.dbOffset = dbOffset;
-            this.dbBit = dbBit;
-            this.writeValue = writeValue;
-        }
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                client.SetConnectionType(S7.S7_BASIC);
-
-                int res = client.ConnectTo(vytahIPAdresa, 0, 2);// ak je S7-300 tak je vždy 0,2
-                if (res == 0) {
-                    byte[] data = new byte[1];
-                    res = client.ReadArea(S7.S7AreaDB, dbNumber, dbOffset, 1, data);
-                    if (res == 0) {
-                        S7.SetBitAt(data, 0, dbBit, writeValue);
-                        res = client.WriteArea(S7.S7AreaDB, dbNumber, dbOffset, 1, data);
-                        if (res == 0) {
-                            ret="Success";
-                        } else {
-                        ret = "Error: " + S7Client.ErrorText(res);
-                        }
-                    }else {
-                        ret = "Error: " + S7Client.ErrorText(res);
-                    }
-                } else {
-                    //stringValue += "res == " + res + "\n";
-                    ret = "Error: " + S7Client.ErrorText(res);
-                }
-                client.Disconnect();
-            } catch (Exception e) {
-                ret = e.getMessage();
-                Thread.interrupted();
-            }
-            return "executed";
-        }
-        @Override
-        protected void onPostExecute(String result){
-            errorText.setText(ret);
-        }
-    }
-    private void setAllToRed(int falseRed){
+    /**
+     * Metóda setAllToColor nastaví všetky vizuálne prvky na zadanú farbu.
+     * Táto metóda je používaná na zresetovanie vizuálnych prvkov na pôvodnú červenú farbu.
+     * Farba je definovaná ako parameter metódy.
+     *
+     * @param color Farba, na ktorú sa majú nastaviť všetky vizuálne prvky.
+     *                 Táto farba je zvyčajne červená, ale môže byť akákoľvek farba definovaná ako integer.
+     */
+    private void setAllToColor(int color){
         //ikony
-        imageViewDrahaVzduch.setColorFilter(falseRed);
-        imageViewVytahDole.setColorFilter(falseRed);
-        imageViewVytahHore.setColorFilter(falseRed);
-        imageViewSnimacL.setColorFilter(falseRed);
-        imageViewSnimacP.setColorFilter(falseRed);
+        imageViewDrahaVzduch.setColorFilter(color);
+        imageViewVytahDole.setColorFilter(color);
+        imageViewVytahHore.setColorFilter(color);
+        imageViewSnimacL.setColorFilter(color);
+        imageViewSnimacP.setColorFilter(color);
         //vstupy
-        i_snimac_h.setTextColor(falseRed);
-        i_snimac_l.setTextColor(falseRed);
-        i_snimac_p.setTextColor(falseRed);
-        i_vytah_h.setTextColor(falseRed);
-        i_vytah_d.setTextColor(falseRed);
-        i_piest_vysunuty.setTextColor(falseRed);
-        i_rameno_pritomne.setTextColor(falseRed);
+        i_snimac_h.setTextColor(color);
+        i_snimac_l.setTextColor(color);
+        i_snimac_p.setTextColor(color);
+        i_vytah_h.setTextColor(color);
+        i_vytah_d.setTextColor(color);
+        i_piest_vysunuty.setTextColor(color);
+        i_rameno_pritomne.setTextColor(color);
         //vystupy
-        q_draha.setTextColor(falseRed);
-        q_vytah_h.setTextColor(falseRed);
-        q_vytah_d.setTextColor(falseRed);
-        q_piest.setTextColor(falseRed);
-        q_manual.setTextColor(falseRed);
+        q_draha.setTextColor(color);
+        q_vytah_h.setTextColor(color);
+        q_vytah_d.setTextColor(color);
+        q_piest.setTextColor(color);
+        q_manual.setTextColor(color);
+        //tlacidla
+        buttonDraha.setBackgroundColor(color);
+        buttonVytahHore.setBackgroundColor(color);
+        buttonVytahDole.setBackgroundColor(color);
+        buttonPiest.setBackgroundColor(color);
+        buttonAutoVytah.setBackgroundColor(color);
+        buttonManualVytah.setBackgroundColor(color);
+        buttonStartVytah.setBackgroundColor(color);
+        buttonStopVytah.setBackgroundColor(color);
     }
-
+    /**
+     * Metóda animatePiest animuje pohyb piestu.
+     * Táto metóda vytvára animáciu, ktorá mení pozíciu piestu z aktuálnej pozície na cieľovú pozíciu.
+     * Cieľová pozícia a trvanie animácie sú definované ako parametre metódy.
+     * Počas animácie sa aktualizuje dolný okraj (bottom margin) layoutu piestu.
+     *
+     * @param positionToDp Cieľová pozícia piestu v dp (density-independent pixels).
+     * @param duration Trvanie animácie v milisekundách.
+     */
     private void animatePiest(int positionToDp,int duration){
         float density = getResources().getDisplayMetrics().density;
         int positionTo = Math.round(positionToDp * density);
@@ -585,7 +665,6 @@ public class VytahFragment extends Fragment {
         if(params.getMarginEnd() == positionTo){
             return;
         }
-        //Toast.makeText(getContext(), "Piest sa vysunul "+positionTo, Toast.LENGTH_SHORT).show();
         // Create a ValueAnimator that animates from the current end margin to 0
         ValueAnimator animator = ValueAnimator.ofInt(params.getMarginEnd(), positionTo);
         animator.addUpdateListener(animation -> {
@@ -594,7 +673,6 @@ public class VytahFragment extends Fragment {
             imagePiestVysuvanie.setLayoutParams(params);
             imagePiestVysuvanie.getParent().requestLayout();
         });
-
         // Set the duration of the animation
         animator.setDuration(duration);
 
