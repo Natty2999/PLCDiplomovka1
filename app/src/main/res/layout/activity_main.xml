@@ -29,13 +29,13 @@
             android:id="@+id/tabItemVytah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/vytah" />
+            android:text="@string/menu_elevator" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItemRameno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rameno" />
+            android:text="@string/menu_arm" />
 
     </com.google.android.material.tabs.TabLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
