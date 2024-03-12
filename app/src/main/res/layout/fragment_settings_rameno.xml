@@ -7,15 +7,873 @@
     android:layout_height="match_parent"
     tools:context=".SettingsRamenoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rameno"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+
+            <TextView android:id="@+id/tv_rameno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/menu_arm"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView android:id="@+id/tv_ip_adresa_rameno"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ip_adresa"
+                app:layout_constraintBottom_toBottomOf="@+id/til_ip_adresa_rameno"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/til_ip_adresa_rameno"
+                app:layout_constraintVertical_bias="0.25" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_ip_adresa_rameno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_ip_adresa_rameno"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rameno">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_ip_adresa_rameno"
+                    android:layout_width="197dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="2dp"
+                    android:digits="0123456789."
+                    android:ems="10"
+                    android:hint="@string/ip_adresa"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:id="@+id/tv_cislodb_rameno"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                style="@style/tv_settings"
+                android:text="@string/db_number"
+                app:layout_constraintBottom_toBottomOf="@+id/til_snimace_db_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/til_snimace_db_number" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_snimace_db_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_cislodb_rameno"
+                app:layout_constraintTop_toBottomOf="@+id/til_ip_adresa_rameno">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_snimace_db_number_rameno"
+                    android:layout_width="197dp"
+                    android:layout_height="55dp"
+                    android:ems="10"
+                    android:hint="@string/db_number"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Button -->
+            <TextView android:id="@+id/tv_Inputs"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+
+                android:text="@string/inputs"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_show_inputs"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_show_inputs" />
+
+            <Button android:id="@+id/btn_show_inputs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/tv_Inputs"
+                app:layout_constraintTop_toBottomOf="@+id/til_snimace_db_number"
+                app:iconPadding="8dp"
+                style="@style/btn_show"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_inputs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/btn_show_inputs">
+
+                <TextView
+                    android:id="@+id/tv_snimac_prisiaty"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Prisiaty výrobok"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_snimac_prisiaty_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_prisiaty_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_prisiaty_dboffset"
+                    style="@style/til_byte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/tv_snimac_prisiaty"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_prisiaty_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_prisiaty_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_snimac_prisiaty_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_prisiaty_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_prisiaty_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_snimac_dom_poloha"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Domaca poloha"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_snimac_dom_poloha_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_dom_poloha_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_dom_poloha_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_snimac_dom_poloha"
+                    app:layout_constraintTop_toBottomOf="@+id/til_snimac_prisiaty_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_dom_poloha_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_dom_poloha_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_snimac_dom_poloha_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_dom_poloha_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_dom_poloha_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_snimac_vys_extruder"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Vysunutý extrúder"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_snimac_vys_extruder_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_vys_extruder_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_vys_extruder_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_snimac_vys_extruder"
+                    app:layout_constraintTop_toBottomOf="@+id/til_snimac_dom_poloha_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_vys_extruder_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_vys_extruder_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_snimac_vys_extruder_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_vys_extruder_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_vys_extruder_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_snimac_prazdny_zasobnik"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Prázdny zásobník"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_snimac_prazdny_zasobnik_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_prazdny_zasobnik_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_prazdny_zasobnik_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_snimac_prazdny_zasobnik"
+                    app:layout_constraintTop_toBottomOf="@+id/til_snimac_vys_extruder_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_prazdny_zasobnik_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_prazdny_zasobnik_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_snimac_prazdny_zasobnik_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_prazdny_zasobnik_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_prazdny_zasobnik_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_snimac_rameno_pri_z"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rameno pri Z"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_snimac_rameno_pri_z_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_rameno_pri_z_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_rameno_pri_z_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_snimac_rameno_pri_z"
+                    app:layout_constraintTop_toBottomOf="@+id/til_snimac_prazdny_zasobnik_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_rameno_pri_z_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_rameno_pri_z_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_snimac_rameno_pri_z_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_snimac_rameno_pri_z_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_rameno_pri_z_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_5"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rameno pri V"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_14"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_14" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_5"
+                    app:layout_constraintTop_toBottomOf="@+id/til_snimac_rameno_pri_z_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_rameno_pri_v_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_snimac_pri_v_dbbit"
+                    style="@style/til_bit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    app:layout_constraintStart_toEndOf="@+id/til_14"
+                    app:layout_constraintTop_toTopOf="@+id/til_14">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_pri_v_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_8"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Suč. na V"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_16" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_8"
+                    app:layout_constraintTop_toBottomOf="@+id/til_14">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_suc_na_v_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_16"
+                    app:layout_constraintTop_toTopOf="@+id/til_16">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_suc_na_v_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_suc_na_vytah"
+                    style="@style/tv_settings"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Vyťah dole"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vytah_dole_offset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vytah_dole_offset" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vytah_dole_offset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_suc_na_vytah"
+                    app:layout_constraintTop_toBottomOf="@+id/til_16">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_rameno_vytah_dole_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vytah_dole_offset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vytah_dole_offset">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_snimac_r_vytah_dole_dbbit"
+                        style="@style/et_bit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Button -->
+            <TextView
+                android:id="@+id/tv_Outputs"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/outputs"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_show_outputs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_show_outputs" />
+
+            <Button
+                android:id="@+id/btn_show_outputs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:iconPadding="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_Outputs"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_layout_inputs"
+                style="@style/btn_show"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_outputs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/btn_show_outputs"
+                tools:layout_editor_absoluteX="0dp">
+
+                <TextView android:id="@+id/tv_vystup_extruder"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="Extrúder"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_extruder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_extruder" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_extruder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_extruder"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_extruder_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_extruder"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_extruder">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_extruder_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_rameno_kv"
+
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="Rameno KV"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_rameno_kv_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_rameno_kv_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_rameno_kv_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_rameno_kv"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_rameno_kz">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_rameno_kv_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+ />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_rameno_kv_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_rameno_kv_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_rameno_kv_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_rameno_kv_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_vystup_rameno_kz"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="Rameno KZ"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_rameno_kz"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_rameno_kz" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_rameno_kz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_rameno_kz"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_extruder">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_rameno_kz_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_rameno_kz_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_rameno_kz"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_rameno_kz">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_rameno_kz_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_odfuk"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="Odfuk"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_odfuk_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_odfuk_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_odfuk_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_odfuk"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_rameno_kv_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_odfuk_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+ />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_odfuk_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_odfuk_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_odfuk_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_odfuk_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_manual_rameno"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="@string/mode_manual"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_manual_rameno_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_manual_rameno_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_manual_rameno_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_manual_rameno"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_odfuk_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_manual_rameno_dboffset"
+                        style="@style/et_byte"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+ />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_manual_rameno_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_manual_rameno_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_manual_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_manual_rameno_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_auto_rameno"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="@string/mode_automatic"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_auto_rameno_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_auto_rameno_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_auto_rameno_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_auto_rameno"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_manual_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_auto_rameno_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        style="@style/et_byte"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_auto_rameno_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_auto_rameno_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_auto_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_auto_rameno_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_prisavka"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="prisavkaTODO"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_prisavka_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_prisavka_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_prisavka_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_prisavka"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_auto_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_prisavka_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        style="@style/et_byte"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_prisavka_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_prisavka_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_prisavka_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_prisavka_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_polo_automaticky_rameno"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="@string/mode_semi_automatic"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_polo_automaticky_rameno_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_polo_automaticky_rameno_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_polo_automaticky_rameno_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_auto_rameno"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_prisavka_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_polo_automaticky_rameno_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        style="@style/et_byte"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_polo_automaticky_rameno_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_polo_automaticky_rameno_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_polo_automaticky_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_polo_automaticky_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_action_start"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/tv_settings"
+                    android:text="@string/action_start_stop"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_start_rameno_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_start_rameno_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_start_rameno_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_auto_rameno"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_polo_automaticky_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_start_rameno_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        style="@style/et_byte"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_start_rameno_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_start_rameno_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_start_rameno_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_start_rameno_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        style="@style/et_bit" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_save_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/action_save_btn_desc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

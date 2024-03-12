@@ -5,120 +5,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsVytahFragment">
-
+    <!-- TODO: finish naming everything  -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="393dp"
-            android:layout_height="711dp"
-            android:layout_margin="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.068">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
 
-            <LinearLayout
+            <TextView android:id="@+id/tv_vytah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:gravity="center_horizontal"
+                android:text="@string/menu_elevator"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/vytah"
-                    android:textSize="34sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <TextView android:id="@+id/tvIPAdresaVytah"
 
-            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ip_adresa"
+                app:layout_constraintBottom_toBottomOf="@+id/til8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/til8"
+                app:layout_constraintVertical_bias="0.25" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/tvIPAdresaVytah"
+                app:layout_constraintTop_toBottomOf="@+id/tv_vytah">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_ip_adresa_vytah"
+                    android:layout_width="197dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="2dp"
+                    android:digits="0123456789."
+                    android:ems="10"
+                    android:hint="@string/ip_adresa"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:id="@+id/tvCisloDBVytah"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/db_number"
+                app:layout_constraintBottom_toBottomOf="@+id/til9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/til9" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/tvCisloDBVytah"
+                app:layout_constraintTop_toBottomOf="@+id/til8">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_snimace_dbnumber"
+                    android:layout_width="197dp"
+                    android:layout_height="55dp"
+                    android:ems="10"
+                    android:hint="@string/db_number"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Button -->
+            <TextView android:id="@+id/tvInputs"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+
+                android:text="@string/inputs"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_show_inputs"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_show_inputs" />
+
+            <Button android:id="@+id/btn_show_inputs"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:drawableRight="@drawable/baseline_play_arrow_24"
+                android:drawableTint="?attr/colorOnPrimary"
+                android:text="@string/action_show"
+                app:iconPadding="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvInputs"
+                app:layout_constraintTop_toBottomOf="@+id/til9" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/btn_show_inputs">
 
                 <TextView
+                    android:id="@+id/tvSnimacL"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ip_adresa" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_sensor_l"
+                    app:layout_constraintBottom_toBottomOf="@+id/tilSnimacLOffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tilSnimacLOffset" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSnimacLOffset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/VytahIPAdresa"
-                        android:layout_width="197dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:digits="0123456789."
-                        android:ems="10"
-                        android:hint="@string/ip_adresa"
-                        android:inputType="number" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Číslo DB" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Snimace_DBNumber"
-                        android:layout_width="197dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:ems="10"
-                        android:hint="@string/db_cislo"
-                        android:inputType="number" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Snímač L" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvSnimacL"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_L_DBOffset"
@@ -132,9 +154,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSnimacLBit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tilSnimacLOffset"
+                    app:layout_constraintTop_toTopOf="@+id/tilSnimacLOffset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_L_DBBit"
@@ -146,23 +171,26 @@
                         android:hint="@string/db_bit"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvSnimacP"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Snímač P" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_sensor_p"
+                    app:layout_constraintBottom_toBottomOf="@+id/tilSnimacPOffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tilSnimacPOffset" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSnimacPOffset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvSnimacP"
+                    app:layout_constraintTop_toBottomOf="@+id/tilSnimacLOffset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_P_DBOffset"
@@ -177,9 +205,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSnimacPBit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tilSnimacPOffset"
+                    app:layout_constraintTop_toTopOf="@+id/tilSnimacPOffset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_P_DBBit"
@@ -192,23 +223,26 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv2"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Snímač H" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_sensor_h"
+                    app:layout_constraintBottom_toBottomOf="@+id/til10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til10" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv2"
+                    app:layout_constraintTop_toBottomOf="@+id/tilSnimacPOffset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_H_DBOffset"
@@ -223,9 +257,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til10"
+                    app:layout_constraintTop_toTopOf="@+id/til10">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_H_DBBit"
@@ -238,24 +275,26 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tv6"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Rameno pri Vyt" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_arm_at_elev"
+                    app:layout_constraintBottom_toBottomOf="@+id/til12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til12" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv6"
+                    app:layout_constraintTop_toBottomOf="@+id/til10">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_Rameno_DBOffset"
@@ -272,10 +311,12 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til12"
+                    app:layout_constraintTop_toTopOf="@+id/til12">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Snimac_Rameno_DBBit"
+                        android:id="@+id/et_snimac_rameno_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
                         android:layout_marginStart="2dp"
@@ -285,23 +326,25 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv4"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Výťah je Hore" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_elevator_up"
+                    app:layout_constraintBottom_toBottomOf="@+id/til13"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til13" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv4"
+                    app:layout_constraintTop_toBottomOf="@+id/til12">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_Vytah_H_DBOffset"
@@ -318,10 +361,12 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til13"
+                    app:layout_constraintTop_toTopOf="@+id/til13">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Snimac_Vytah_H_DBBit"
+                        android:id="@+id/et_snimac_vytah_h_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
                         android:layout_marginStart="2dp"
@@ -331,23 +376,26 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv5"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Výťah je Dole" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="@string/elevator_input_elevator_down"
+                    app:layout_constraintBottom_toBottomOf="@+id/til14"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til14" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv5"
+                    app:layout_constraintTop_toBottomOf="@+id/til13">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_Vytah_D_DBOffset"
@@ -362,12 +410,15 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til14"
+                    app:layout_constraintTop_toTopOf="@+id/til14">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Snimac_Vytah_D_DBBit"
+                        android:id="@+id/et_snimac_vytah_d_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
                         android:layout_marginStart="2dp"
@@ -377,23 +428,26 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv8"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Poloha Piesta" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="Poloha Piesta"
+                    app:layout_constraintBottom_toBottomOf="@+id/til16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til16" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv8"
+                    app:layout_constraintTop_toBottomOf="@+id/til14">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Snimac_Piest_DBOffset"
@@ -410,10 +464,12 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til16"
+                    app:layout_constraintTop_toTopOf="@+id/til16">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Snimac_Piest_DBBit"
+                        android:id="@+id/et_snimac_piest_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
                         android:layout_marginStart="2dp"
@@ -423,30 +479,296 @@
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <!-- Vystupy -->
-            <LinearLayout
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Button -->
+            <TextView
+                android:id="@+id/tvOutputs"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/outputs"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_show_outputs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_show_outputs" />
+
+            <Button
+                android:id="@+id/btn_show_outputs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:drawableEnd="@drawable/baseline_play_arrow_24"
+                android:drawableTint="?attr/colorOnPrimary"
+                android:text="@string/action_show"
+                app:iconPadding="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvOutputs"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_layout_inputs" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_outputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/btn_show_outputs"
+                tools:layout_editor_absoluteX="0dp">
 
-                <TextView
+                <TextView android:id="@+id/tvPiest"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Vystup Piesta" />
-
-
+                    android:layout_marginStart="16dp"
+                    android:text="Vystup Piesta"
+                    app:layout_constraintBottom_toBottomOf="@+id/til18"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til18" />
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvPiest"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Piest_DBOffset"
+                        android:id="@+id/et_vystup_piest_dboffset"
                         android:layout_width="110dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:ems="10"
+                        android:hint="@string/db_offset"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til18"
+                    app:layout_constraintTop_toTopOf="@+id/til18">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_piest_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_bit"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tvVystupVytahD"
+
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Výťah D"
+                    app:layout_constraintBottom_toBottomOf="@+id/ti_vystup_vytah_d_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ti_vystup_vytah_d_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ti_vystup_vytah_d_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvVystupVytahD"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_vytah_h_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_vytah_d_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_offset"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_vytah_d_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/ti_vystup_vytah_d_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/ti_vystup_vytah_d_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_vytah_d_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_bit"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_vytah_h"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Výťah H"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_vytah_h_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_vytah_h_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_vytah_h_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvVystupVytahD"
+                    app:layout_constraintTop_toBottomOf="@+id/til18">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_vytah_h_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_offset"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_vytah_h_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_vytah_h_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_vytah_h_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_vytah_h_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_bit"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_draha"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Dráha"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_draha_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_draha_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_draha_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_draha"
+                    app:layout_constraintTop_toBottomOf="@+id/ti_vystup_vytah_d_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_draha_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_offset"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_draha_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_draha_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_draha_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_draha_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_bit"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_manual"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Manual"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_manual_dbbit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_manual_dbbit" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_manual_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_manual"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_draha_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_manual_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_offset"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_manual_dbbit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_manual_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_manual_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_manual_dbbit"
+                        android:layout_width="80dp"
+                        android:layout_height="55dp"
+                        android:ems="10"
+                        android:hint="@string/db_bit"
+                        android:inputType="number"
+                        tools:ignore="Autofill" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView android:id="@+id/tv_vystup_auto_polo"
+
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Auto/Polo"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_auto_polo_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_auto_polo_dboffset" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_auto_polo_dboffset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_auto_polo"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_manual_dboffset">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_vystup_auto_polo_dboffset"
+                        android:layout_width="110dp"
+                        android:layout_height="55dp"
                         android:ems="10"
                         android:hint="@string/db_offset"
                         android:inputType="number"
@@ -456,43 +778,42 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_auto_polo_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_auto_polo_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Piest_DBBit"
+                        android:id="@+id/et_vystup_auto_polo_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
                         android:ems="10"
                         android:hint="@string/db_bit"
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <TextView android:id="@+id/tv_vystup_start_vytah"
 
-                <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Výstup Výťah H" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Start"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_start_vytah_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_start_vytah_dboffset" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_start_vytah_dboffset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_start_vytah"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_auto_polo_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Vytah_H_DBOffset"
+                        android:id="@+id/et_vystup_start_vytah_dboffset"
                         android:layout_width="110dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
                         android:ems="10"
                         android:hint="@string/db_offset"
                         android:inputType="number"
@@ -500,45 +821,45 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_start_vytah_dbbit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_start_vytah_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_start_vytah_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Vytah_H_DBBit"
+                        android:id="@+id/et_vystup_start_vytah_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
                         android:ems="10"
                         android:hint="@string/db_bit"
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <TextView android:id="@+id/tv_vystup_stop_vytah"
 
-                <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Výstup Výťah D" />
-
+                    android:layout_marginStart="16dp"
+                    android:text="Výstup Stop"
+                    app:layout_constraintBottom_toBottomOf="@+id/til_vystup_stop_vytah_dboffset"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_stop_vytah_dboffset" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_stop_vytah_dboffset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_vystup_stop_vytah"
+                    app:layout_constraintTop_toBottomOf="@+id/til_vystup_start_vytah_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Vytah_D_DBOffset"
+                        android:id="@+id/et_vystup_stop_vytah_dboffset"
                         android:layout_width="110dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
                         android:ems="10"
                         android:hint="@string/db_offset"
                         android:inputType="number"
@@ -546,119 +867,30 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_vystup_stop_vytah_dbbit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/til_vystup_stop_vytah_dboffset"
+                    app:layout_constraintTop_toTopOf="@+id/til_vystup_stop_vytah_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Vytah_D_DBBit"
+                        android:id="@+id/et_vystup_stop_vytah_dbbit"
                         android:layout_width="80dp"
                         android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
                         android:ems="10"
                         android:hint="@string/db_bit"
                         android:inputType="number"
                         tools:ignore="Autofill" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Výstup Dráha" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Draha_DBOffset"
-                        android:layout_width="110dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:ems="10"
-                        android:hint="@string/db_offset"
-                        android:inputType="number"
-                        tools:ignore="Autofill" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Draha_DBBit"
-                        android:layout_width="80dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:ems="10"
-                        android:hint="@string/db_bit"
-                        android:inputType="number"
-                        tools:ignore="Autofill" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Výstup Manual" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Manual_DBOffset"
-                        android:layout_width="110dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:ems="10"
-                        android:hint="@string/db_offset"
-                        android:inputType="number"
-                        tools:ignore="Autofill" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Vystup_Manual_DBBit"
-                        android:layout_width="80dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:ems="10"
-                        android:hint="@string/db_bit"
-                        android:inputType="number"
-                        tools:ignore="Autofill" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ActionButtonSave"
+        android:id="@+id/ab_save_vytah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
