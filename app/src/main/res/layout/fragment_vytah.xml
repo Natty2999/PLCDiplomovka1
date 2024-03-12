@@ -11,10 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/vytah"
+        android:text="@string/menu_elevator"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
-            android:text="Výstupy"
+            android:text="@string/outputs"
             android:textStyle="bold" />
 
         <TextView
@@ -90,35 +89,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Výťah D" />
+            android:text="@string/elevator_output_elevator_down" />
 
         <TextView
             android:id="@+id/q_vytah_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Výťah H" />
+            android:text="@string/elevator_output_elevator_up" />
 
         <TextView
             android:id="@+id/q_piest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Piest" />
+            android:text="@string/elevator_output_extruder" />
 
         <TextView
             android:id="@+id/q_draha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Dráha" />
+            android:text="@string/elevator_output_air_road" />
 
         <TextView
             android:id="@+id/q_manual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Režim Manual" />
+            android:text="@string/mode_manual" />
 
     </LinearLayout>
 
@@ -137,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
-            android:text="  Vstupy"
+            android:text="@string/inputs"
             android:textStyle="bold" />
 
         <TextView
@@ -145,49 +144,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Snímač L" />
+            android:text="@string/elevator_input_sensor_l" />
 
         <TextView
             android:id="@+id/i_snimac_p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Snímač P" />
+            android:text="@string/elevator_input_sensor_p" />
 
         <TextView
             android:id="@+id/i_rameno_pritomne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Rameno Prítomné" />
+            android:text="@string/elevator_input_arm_at_elev" />
 
         <TextView
             android:id="@+id/i_vytah_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Výťah H" />
+            android:text="@string/elevator_input_elevator_up" />
 
         <TextView
             android:id="@+id/i_vytah_d"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Výťah D" />
+            android:text="@string/elevator_input_elevator_down" />
 
         <TextView
             android:id="@+id/i_snimac_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Snímač H" />
+            android:text="@string/elevator_input_sensor_h" />
 
         <TextView
             android:id="@+id/i_piest_vysunuty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Piest Vysunutý" />
+            android:text="@string/elevator_input_extruder" />
     </LinearLayout>
 
     <TextView
@@ -214,9 +213,20 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
-        android:text="Výťah hore"
+        android:text="@string/elevator_output_elevator_up"
         app:layout_constraintBottom_toTopOf="@+id/buttonVytahDole"
         app:layout_constraintStart_toStartOf="@+id/buttonVytahDole" />
+
+    <Button
+        android:id="@+id/buttonVytahDole"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/elevator_output_elevator_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDraha"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonPiest"
@@ -231,28 +241,14 @@
         android:id="@+id/buttonDraha"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
         android:text="Dráha"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonVytahDole" />
 
     <Button
-        android:id="@+id/buttonVytahDole"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginBottom="16dp"
-        android:text="Výťah dole"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonDraha"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonAutoRez"
+        android:id="@+id/buttonAutoVytah"
         android:layout_width="96dp"
         android:layout_height="51dp"
         android:layout_marginStart="16dp"
@@ -262,13 +258,13 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
     <Button
-        android:id="@+id/buttonManualRez"
+        android:id="@+id/buttonManualVytah"
         android:layout_width="96dp"
         android:layout_height="51dp"
         android:layout_marginTop="12dp"
         android:text="Manual"
-        app:layout_constraintEnd_toEndOf="@+id/buttonAutoRez"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAutoRez" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonAutoVytah"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAutoVytah" />
 
     <ImageView
         android:id="@+id/imagePiestVysuvanie"
@@ -292,10 +288,12 @@
         android:id="@+id/imageViewSnimacL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="130dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonVytahHore"
-        app:layout_constraintStart_toStartOf="@+id/buttonVytahHore"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPiest"
+        app:layout_constraintEnd_toEndOf="@+id/imageSuciastka"
+        app:layout_constraintStart_toEndOf="@+id/buttonPiest"
         app:srcCompat="@drawable/baseline_circle_24" />
 
     <ImageView
@@ -313,11 +311,14 @@
         android:id="@+id/imageDraha"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginEnd="172dp"
         android:src="@drawable/draha"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewVytahHore"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewVytahHore"
+        app:layout_constraintHorizontal_bias="0.581"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorTextVytah" />
+        app:layout_constraintTop_toTopOf="@+id/imageViewVytahHore"
+        app:layout_constraintVertical_bias="0.557" />
 
     <ImageView
         android:id="@+id/imagePiest"
@@ -328,5 +329,25 @@
         android:src="@drawable/piestik"
         app:layout_constraintBottom_toTopOf="@+id/buttonPiest"
         app:layout_constraintEnd_toStartOf="@+id/imageViewVytahDole" />
+
+
+    <Button
+        android:id="@+id/btn_start_vytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/action_start"
+        app:layout_constraintStart_toEndOf="@+id/buttonPiest"
+        app:layout_constraintTop_toTopOf="@+id/buttonPiest" />
+
+    <Button
+        android:id="@+id/btn_stop_vytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/action_stop"
+        app:layout_constraintStart_toEndOf="@+id/buttonDraha"
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_vytah" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
