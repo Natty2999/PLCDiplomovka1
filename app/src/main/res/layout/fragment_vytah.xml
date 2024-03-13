@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="228dp"
+        android:layout_marginBottom="184dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_circle_24" />
@@ -210,42 +210,39 @@
 
     <Button
         android:id="@+id/buttonVytahHore"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/elevator_output_elevator_up"
-        app:layout_constraintBottom_toTopOf="@+id/buttonVytahDole"
-        app:layout_constraintStart_toStartOf="@+id/buttonVytahDole" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonPiest"
+        app:layout_constraintTop_toTopOf="@+id/buttonPiest" />
 
     <Button
         android:id="@+id/buttonVytahDole"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/elevator_output_elevator_down"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonDraha"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/buttonDraha" />
 
     <Button
         android:id="@+id/buttonPiest"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Piest"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDraha"
-        app:layout_constraintEnd_toEndOf="@+id/buttonDraha" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_start_vytah"
+        app:layout_constraintTop_toTopOf="@+id/btn_start_vytah" />
 
     <Button
         android:id="@+id/buttonDraha"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:text="Dráha"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonVytahDole" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_stop_vytah"
+        app:layout_constraintTop_toTopOf="@+id/btn_stop_vytah" />
 
     <Button
         android:id="@+id/buttonAutoVytah"
@@ -325,7 +322,7 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/piestik"
         app:layout_constraintBottom_toTopOf="@+id/buttonPiest"
         app:layout_constraintEnd_toStartOf="@+id/imageViewVytahDole" />
@@ -335,19 +332,19 @@
         android:id="@+id/btn_start_vytah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/action_start"
-        app:layout_constraintStart_toEndOf="@+id/buttonPiest"
-        app:layout_constraintTop_toTopOf="@+id/buttonPiest" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_stop_vytah"
+        app:layout_constraintEnd_toEndOf="@+id/btn_stop_vytah" />
 
     <Button
         android:id="@+id/btn_stop_vytah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/action_stop"
-        app:layout_constraintStart_toEndOf="@+id/buttonDraha"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start_vytah" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
