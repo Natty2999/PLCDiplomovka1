@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 import com.google.android.material.color.DynamicColors;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,10 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     TabLayout tabLayoutSettings;
+    FloatingActionButton buttonMenu;
 
     DefaultBitEditing defaultBitEditing = new DefaultBitEditing();
+    //Testing defaultBitEditing = new Testing();
     VytahFragment vytahFragment = new VytahFragment();
     RamenoFragment ramenoFragment = new RamenoFragment();
+
 
     SettingsVytahFragment settingsVytahFragment = new SettingsVytahFragment();
     SettingsRamenoFragment settingsRamenoFragment = new SettingsRamenoFragment();
@@ -37,19 +43,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        buttonMenu = findViewById(R.id.floatingActionButton);
         tabLayoutSettings = findViewById(R.id.tabLayoutSettings);
-        //how to set default fragment
-        // Set the default fragment
+
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, defaultBitEditing).addToBackStack(null).commit();
             tabLayoutSettings.setVisibility(TabLayout.GONE);
         }
+        if (buttonMenu != null && bottomNavigationView != null) {
+            buttonMenu.setOnClickListener(v -> {
+                if (bottomNavigationView.getVisibility() == View.VISIBLE) {
+                    bottomNavigationView.setVisibility(View.GONE);
+                    buttonMenu.setImageResource(R.drawable.baseline_arrow_forward_ios_24);
+                } else {
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    buttonMenu.setImageResource(R.drawable.baseline_arrow_back_ios_24);
+                }
+            });
+        }
 
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            changeFragment(item);
-            return true;
-        });
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setOnItemSelectedListener(item -> {
+                changeFragment(item);
+                return true;
+            });
+        }
 
         // PRIDANE kvôli zobrazeniu tabLayoutu pri zobrazení fragmentu, inak by sa zobrazoval tablaout skor ako sa zobrazil fragment
         // dava to potom zly vzhlad, taky sekany
