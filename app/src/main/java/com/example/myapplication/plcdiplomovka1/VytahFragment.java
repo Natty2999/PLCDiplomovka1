@@ -24,8 +24,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
@@ -100,6 +98,7 @@ public class VytahFragment extends Fragment {
     private ImageView imageViewVytahHore;
     private ImageView imageViewVytahDole;
 
+    private ImageView iw_snimac_hore;
     private ImageView imageViewSnimacL;
     private ImageView imageViewSnimacP;
 
@@ -132,6 +131,7 @@ public class VytahFragment extends Fragment {
     private int casovac_interval = 100;
     private int casovac_time = 50000;
     private boolean isPiestVysunuty = false;
+    private boolean isSnimacHore = false;
     private boolean isVytahHore = false;
     private boolean isVytahDole = false;
     //endregion
@@ -177,7 +177,7 @@ public class VytahFragment extends Fragment {
     private static final String VYSTUP_START_VYTAH_DBBIT = "vystup_start_vytah_dbbit";
     private static final String VYSTUP_STOP_VYTAH_DBBIT = "vystup_stop_vytah_dbbit";
     //endregion
-
+    private boolean jeRameno = true;
 
 
 
@@ -223,6 +223,13 @@ public class VytahFragment extends Fragment {
     S7Client client = new S7Client();
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (switchRead.isChecked()) {
+            switchRead.setChecked(false);
+        }
+    }
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -256,6 +263,7 @@ public class VytahFragment extends Fragment {
         q_piest = view.findViewById(R.id.q_piest);
         q_manual = view.findViewById(R.id.q_manual);
         //ikony
+        iw_snimac_hore = view.findViewById(R.id.iw_snimac_hore);
         imageViewDrahaVzduch = view.findViewById(R.id.imageViewDrahaVzduch);
         imageViewVytahHore = view.findViewById(R.id.imageViewVytahHore);
         imageViewVytahDole = view.findViewById(R.id.imageViewVytahDole);
@@ -272,6 +280,14 @@ public class VytahFragment extends Fragment {
         setAllToColor(falseRed);
 
         switchRead.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ReadPlc();
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
             if (isChecked) {
                 startCountdown();
                 counter = 100;
@@ -282,59 +298,145 @@ public class VytahFragment extends Fragment {
         //while button is held down change color of imageview2 to green, when let go change back to red
         //TODO implement this
         buttonDraha.setOnTouchListener((v, event) -> {
+
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
+
                 //write bit to 1
                 IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Draha_DBOffset, vystup_Draha_DBBit, true);
+                if (getActivity() instanceof MainActivity) {
+                    if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                        if (getActivity() instanceof MainActivity) {
+                            ((MainActivity) getActivity()).hideMenu();
+                        }
+                    }
+                }
+                ReadPlc();
 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 //write bit to 0
                 IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Draha_DBOffset, vystup_Draha_DBBit, false);
+                ReadPlc();
             }
             return false;
         });
         buttonPiest.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 //write bit to 1
+                if (getActivity() instanceof MainActivity) {
+                    if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                        if (getActivity() instanceof MainActivity) {
+                            ((MainActivity) getActivity()).hideMenu();
+                        }
+                    }
+                }
                 IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Piest_DBOffset, vystup_Piest_DBBit, true);
+                ReadPlc();
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 //write bit to 0
                 IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Piest_DBOffset, vystup_Piest_DBBit, false);
+                ReadPlc();
             }
             return false;
         });
         //the code
         buttonVytahDole.setOnClickListener(v -> {
-            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, false) == 0){
-                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, true);
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
             }
-
-
-        });
-        buttonStartVytah.setOnClickListener(v -> {
-            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, false) == 0){
-                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, true);
-            }
-        });
-        buttonStopVytah.setOnClickListener(v -> {
-            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, false) == 0){
-                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, true);
+            if(!jeRameno){
+                if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, false) == 0){
+                    IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, true);
+                }
+                if (!switchRead.isChecked()){
+                    ReadPlc();
+                }
+            }else {
+                Snackbar.make(view, "Rameno je v ceste!", Snackbar.LENGTH_LONG).show();
             }
         });
         buttonVytahHore.setOnClickListener(v -> {
-            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, false) == 0){
-            IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, true);
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
+            //TODO implement this
+            if(!jeRameno){
+                if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_D_DBOffset, vystup_Vytah_D_DBBit, false) == 0){
+                    IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Vytah_H_DBOffset, vystup_Vytah_H_DBBit, true);
+                }
+                if (!switchRead.isChecked()){
+                    ReadPlc();
+                }
+            }else {
+                Snackbar.make(view, "Rameno je v ceste!", Snackbar.LENGTH_LONG).show();
             }
         });
+        buttonStartVytah.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
+
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, false) == 0){
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, true);
+            }
+            if (!switchRead.isChecked()){
+                ReadPlc();
+            }
+        });
+        buttonStopVytah.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
+            if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Start_Vytah_DBOffset, vystup_Start_Vytah_DBBit, false) == 0){
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Stop_Vytah_DBOffset, vystup_Stop_Vytah_DBBit, true);
+            }
+            if (!switchRead.isChecked()){
+                ReadPlc();
+            }
+        });
+
         buttonAutoVytah.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
             if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Manual_DBOffset, vystup_Manual_DBBit, false) == 0){
-            IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Auto_Polo_DBOffset, vystup_Auto_Polo_DBBit, true);
+                IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Auto_Polo_DBOffset, vystup_Auto_Polo_DBBit, true);
+            }
+            if (!switchRead.isChecked()){
+                ReadPlc();
             }
         });
         buttonManualVytah.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
             if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Auto_Polo_DBOffset, vystup_Auto_Polo_DBBit, false) == 0){
                 if(IOMethods.WritePlc(errorText, client, handler, executorService, vytahIPAdresa, Integer.parseInt(snimace_DBNumber), vystup_Manual_DBOffset, vystup_Manual_DBBit, true) == 0) {
                     if (!switchRead.isChecked()) {
-                        Snackbar.make(view, "Not monitoring!", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(view, "Monitoroanie vypnuté!", Snackbar.LENGTH_LONG).show();
                         // Assuming 'view' is your view that you want to highlight
                         switchRead.setBackgroundColor(Color.RED); // Change to your highlight color
 
@@ -348,7 +450,9 @@ public class VytahFragment extends Fragment {
         });
         maxOffset =  getMaxOffset(new Integer[]{snimac_L_DBOffset, snimac_P_DBOffset, snimac_H_DBOffset, snimac_Vytah_H_DBOffset, snimac_Vytah_D_DBOffset, snimac_Rameno_DBoffset, snimac_Piest_DBOffset, vystup_Draha_DBOffset, vystup_Piest_DBOffset, vystup_Vytah_H_DBOffset, vystup_Vytah_D_DBOffset, vystup_Manual_DBOffset, vystup_Auto_Polo_DBOffset, vystup_Start_Vytah_DBOffset, vystup_Stop_Vytah_DBOffset});
         //Toast.makeText(getContext(), "Max offset: " + maxOffset, Toast.LENGTH_SHORT).show();
-        ReadPlc();
+        if (!switchRead.isChecked()){
+            ReadPlc();
+        }
         return view;
     }
     public void loadData(){
@@ -430,15 +534,18 @@ public class VytahFragment extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+        if (client.Connected){
+            client.Disconnect();
+        }
     }
 
     /**
-    * Metóda ReadPlc je zodpovedná za čítanie dát z PLC.
-    * Táto metóda vytvára nový vlákno, ktoré sa pripojí na PLC, prečíta dáta a aktualizuje UI.
-    * Ak nastane chyba pri pripojení alebo čítaní dát, chybová správa sa zobrazí v TextView errorText.
-    * Po úspešnom prečítaní dát sa aktualizujú farby TextView a ImageView na základe prečítaných hodnôt.
-    * Táto metóda tiež kontroluje zmeny stavu výťahu a piestu a spúšťa animácie týchto komponentov.
-    */
+     * Metóda ReadPlc je zodpovedná za čítanie dát z PLC.
+     * Táto metóda vytvára nový vlákno, ktoré sa pripojí na PLC, prečíta dáta a aktualizuje UI.
+     * Ak nastane chyba pri pripojení alebo čítaní dát, chybová správa sa zobrazí v TextView errorText.
+     * Po úspešnom prečítaní dát sa aktualizujú farby TextView a ImageView na základe prečítaných hodnôt.
+     * Táto metóda tiež kontroluje zmeny stavu výťahu a piestu a spúšťa animácie týchto komponentov.
+     */
     private int getMaxOffset(Integer[] arrayOfOffsets){
         int maxOffset = 0;
         for (int offset : arrayOfOffsets){
@@ -491,6 +598,7 @@ public class VytahFragment extends Fragment {
                 if(ret.get().toLowerCase().contains("error")){
                     errorText.setText(ret.get());
                 }else {
+                    jeRameno = dataBools[snimac_Rameno_DBoffset][snimac_Rameno_DBBit];
                     //inputs
                     //log dataBools[snimac_L_DBOffset][snimac_L_DBBit] in console
 
@@ -549,11 +657,10 @@ public class VytahFragment extends Fragment {
                     }else{
                         imageSuciastka.setVisibility(View.INVISIBLE);
                     }
-                    //imagePiest , if isnimacpiest is true then animate image to move to the right
+
                     if (isPiestVysunuty != dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
                         if(dataBools[snimac_Piest_DBOffset][snimac_Piest_DBBit]){
-
-                            animatePiest(14,300);
+                            animatePiest(14,300);//14
                         }else {
                             animatePiest(96,300);
                         }
@@ -577,6 +684,16 @@ public class VytahFragment extends Fragment {
                     }
                     isVytahDole = isVytahDoleNow;
                     isVytahHore = isVytahHoreNow;
+
+                    if (isSnimacHore != dataBools[snimac_H_DBOffset][snimac_H_DBBit]){
+                        if(dataBools[snimac_H_DBOffset][snimac_H_DBBit]){
+
+                            animateSnimacHore(40,300);
+                        }else {
+                            animateSnimacHore(60,300);
+                        }
+                    }
+                    isSnimacHore = dataBools[snimac_H_DBOffset][snimac_H_DBBit];
 
                 }
 
@@ -662,11 +779,14 @@ public class VytahFragment extends Fragment {
         final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) imagePiestVysuvanie.getLayoutParams();
         // if positionTo is already set then return
         if(params.getMarginEnd() == positionTo){
+            System.out.println("animatePiest: "+params.getMarginEnd()+" == "+positionTo);
+            System.out.println("animatePiest: positionTo is already set");
             return;
         }
         // Create a ValueAnimator that animates from the current end margin to 0
         ValueAnimator animator = ValueAnimator.ofInt(params.getMarginEnd(), positionTo);
         animator.addUpdateListener(animation -> {
+            System.out.println("animatePiest: Animujem piest k "+positionToDp+" dp");
             // Update the end margin in the layout parameters
             params.setMarginEnd((Integer) animation.getAnimatedValue());
             imagePiestVysuvanie.setLayoutParams(params);
@@ -678,6 +798,30 @@ public class VytahFragment extends Fragment {
         // Start the animation
         animator.start();
     }
+    private void animateSnimacHore(int positionToDp,int duration){
+        float density = getResources().getDisplayMetrics().density;
+        int positionTo = Math.round(positionToDp * density);
+
+        final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) iw_snimac_hore.getLayoutParams();
+        if(params.bottomMargin == positionTo){
+            System.out.println("positionTo is already set");
+            return;
+        }
+        ValueAnimator animator = ValueAnimator.ofInt(params.bottomMargin, positionTo);
+        animator.addUpdateListener(animation -> {
+            // Update the end margin in the layout parameters
+            params.bottomMargin = (Integer) animation.getAnimatedValue();
+            iw_snimac_hore.setLayoutParams(params);
+            iw_snimac_hore.getParent().requestLayout();
+        });
+
+        // Set the duration of the animation
+        animator.setDuration(duration);
+
+        // Start the animation
+        animator.start();
+
+    }
     private void animateVytah(int positionToDp,int duration){
         float density = getResources().getDisplayMetrics().density;
         int positionTo = Math.round(positionToDp * density);
@@ -685,7 +829,6 @@ public class VytahFragment extends Fragment {
         final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) imagePiest.getLayoutParams();
         // if positionTo is already set then return
         if(params.bottomMargin == positionTo){
-            System.out.println("positionTo is already set");
             return;
         }
         //Toast.makeText(getContext(), "Piest sa vysunul "+positionTo, Toast.LENGTH_SHORT).show();
