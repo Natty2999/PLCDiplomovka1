@@ -34,173 +34,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ip_adresa"
-            android:text="192.168.0.138"
+            android:text="192.168.55.105"
             android:textColorHint="#546E7A" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout5"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputDBNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/db_number"
-            android:inputType="number"
-            android:text="1"
-            android:textColorHint="#546E7A" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout4"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputDBOffset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/db_offset"
-            android:inputType="number"
-            android:text="0"
-            android:textColorHint="#546E7A" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputDBBit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/db_bit"
-            android:inputType="number"
-            android:text="0" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="96dp"
         android:text="@string/db_value"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
-
-    <Button
-        android:id="@+id/buttonWrite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/action_write"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout6"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout6" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout6"
-        android:layout_width="245dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputWriteValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/write_value" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <Button
         android:id="@+id/buttonRead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="4dp"
         android:text="@string/action_read"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout3"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/errorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:text="@string/error"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout3"
-        android:layout_width="245dp"
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="36dp"
+        android:text="CPU INFO"
+        android:textIsSelectable="true"
         app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputReadValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/read_value"
-            android:textColorHint="#546E7A" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchReadVytah"
-        android:layout_width="135dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:text="ReadLoop"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRead"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout3" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="154dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout7"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout7">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditTextTrvanie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Trvanie [s]"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout7"
-        android:layout_width="186dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditTextInterval"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Interval [ms]"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
