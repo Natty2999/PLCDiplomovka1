@@ -10,15 +10,13 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSettings"/>
 
-
-    </FrameLayout>
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutSettings"
         android:layout_width="match_parent"
@@ -58,7 +56,29 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu"></com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/bottom_nav_menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_bg"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <Spinner
+            android:id="@+id/spinnerRamenoDetail"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:spinnerMode="dialog" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

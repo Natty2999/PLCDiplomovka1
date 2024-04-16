@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rameno_detail">
+        <item>Vyber Rameno</item>
+        <item>Ruka</item>
+        <item>Extrúder</item>
+    </string-array>
+    <string-array name="elevator_detail">
+        <item>Vyber Vytah</item>
+        <item>Výťah</item>
+        <item>Piest</item>
+    </string-array>
+</resources>
