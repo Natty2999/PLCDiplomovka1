@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RamenoDetZasobnikFragment"
+    tools:layout_editor_absoluteX="-1dp"
+    tools:layout_editor_absoluteY="0dp">
+
+    <TextView
+        android:id="@+id/tv_Title"
+        style="@style/tv_title"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="4dp"
+        android:text="Rameno - Zásobník"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+    <View
+        android:id="@+id/view_divider_after_title"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Title" />
+
+    <TextView
+        android:id="@+id/tv_rameno_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="Rameno spustené :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider_after_title">
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_mode_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_mode"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_mode">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/btn_rameno_start"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:text="@string/value_true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_mode_value"
+        app:layout_constraintStart_toEndOf="@+id/tv_rameno_mode"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_mode_value"
+        app:layout_constraintVertical_bias="0.473">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btn_rameno_stop"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_rameno_start"
+        app:layout_constraintStart_toEndOf="@+id/btn_rameno_start"
+        app:layout_constraintTop_toTopOf="@+id/btn_rameno_start"
+        >
+
+    </Button>
+
+    <TextView
+        android:id="@+id/tv_rameno_rezim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="8dp"
+        android:text="Rameno režim:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_mode_value">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_rezim_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_automatic"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_rezim"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_rezim">
+
+    </TextView>
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_super_large"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_rameno_rezim" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/sw_read_rameno"
+        android:layout_width="135dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/action_read"
+        app:layout_constraintBottom_toTopOf="@+id/view_divider_after_inputs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider"
+        app:layout_constraintVertical_bias="0.054" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_prazdny_zasobnik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Zásobník je prázdny : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_prazdny_zasobnik_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_inp_prazdny_zasobnik"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_inp_prazdny_zasobnik">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_vysunuty_extruder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Extrúder je vysunutý : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_prazdny_zasobnik"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_vysunuty_extruder_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_inp_vysunuty_extruder"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_inp_vysunuty_extruder">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_zasunuty_extruder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Extrúder je zasunutý : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_vysunuty_extruder"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_zasunuty_extruder_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_inp_zasunuty_extruder"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_inp_zasunuty_extruder"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_rameno_pri_zasobniku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Rameno je pri zásobníku : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_zasunuty_extruder"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_inp_rameno_pri_zasobniku"
+        app:layout_constraintStart_toEndOf="@+id/tv_rameno_inp_rameno_pri_zasobniku"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_inp_rameno_pri_zasobniku"></TextView>
+
+    <View
+        android:id="@+id/view_divider_after_inputs"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_super_large"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_rameno_inp_rameno_pri_zasobniku_value" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_vysunuty_extruder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="Vysuň extrúer : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider_after_inputs"></TextView>
+
+    <TextView
+        android:id="@+id/tv_rameno_tv_rameno_out_vysunuty_extruder_value"
+        style="@style/tv_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_out_vysunuty_extruder"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku_value"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_out_vysunuty_extruder"></TextView>
+
+    <Button
+        android:id="@+id/btn_extruder_out_true"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_tv_rameno_out_vysunuty_extruder_value"
+        app:layout_constraintStart_toStartOf="@+id/btn_rameno_start"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_tv_rameno_out_vysunuty_extruder_value"></Button>
+
+    <Button
+        android:id="@+id/btn_extruder_out_false"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/value_false"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_extruder_out_true"
+        app:layout_constraintStart_toEndOf="@+id/btn_extruder_out_true"
+        app:layout_constraintTop_toTopOf="@+id/btn_extruder_out_true"></Button>
+
+    <View
+        android:id="@+id/view_divider_after_outputs"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_super_large"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_extruder_out_true" />
+
+
+    <ImageView
+        android:id="@+id/iv_rameno_buffer"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/buffer"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_puck"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/puk"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_rameno_extruder"
+        app:layout_constraintEnd_toEndOf="@+id/iv_rameno_extruder"
+        app:layout_constraintTop_toTopOf="@+id/iv_rameno_extruder"
+        app:layout_constraintVertical_bias="0.515" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="124dp"
+        android:src="@drawable/piestik"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_extruder"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/piestvysun"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="errorWillBeHere"
+        app:layout_constraintStart_toStartOf="@+id/view_divider_after_outputs"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider_after_outputs" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RamenoDetRamenoFragment">
+
+
+    <ImageView
+        android:id="@+id/iv_rameno_puk2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/puk"
+        app:layout_constraintEnd_toStartOf="@+id/iv_center_circle"
+        app:layout_constraintTop_toTopOf="@+id/iv_rameno_arm" />
+
+    <TextView
+        android:id="@+id/tv_nadpis_rameno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/menu_arm"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_animate_show"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="@string/error"
+        app:layout_constraintEnd_toEndOf="@+id/sw_read_rameno"
+        app:layout_constraintStart_toStartOf="@+id/sw_read_rameno"
+        app:layout_constraintTop_toBottomOf="@+id/sw_read_rameno" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/sw_read_rameno"
+        android:layout_width="135dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="@string/action_read"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider_after_ios" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inputs"
+        style="@style/tv_list_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/inputs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nadpis_rameno" />
+
+
+    <TextView
+        android:id="@+id/tv_rameno_outputs"
+        style="@style/tv_list_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:text="@string/outputs"
+        app:layout_constraintStart_toEndOf="@+id/tv_rameno_inputs"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_inputs" />
+
+    <View
+        android:id="@+id/view_divider_after_title"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nadpis_rameno" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_prisiaty_vyrobok"
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm.input.sucktioned_on"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inputs"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inputs" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_prazdny_zasobnik"
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm.input.empty_buffer"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_prisiaty_vyrobok"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_prisiaty_vyrobok" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_rameno_pri_zasobniku"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/arm.input.arm_at_buffer"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_prazdny_zasobnik"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_prazdny_zasobnik" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_rameno_pri_vytahu"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/arm.input.arm_at_elevat"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_zasobniku"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_rameno_pri_zasobniku" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_vedla_je_suc"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/arm.input.is_part"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_rameno_pri_vytahu"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_rameno_pri_vytahu" />
+
+    <TextView
+        android:id="@+id/tv_rameno_inp_vytah_dole"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:text="@string/arm.input.elevator_down"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_inp_vedla_je_suc"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_inp_vedla_je_suc" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_rameno_kz"
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rameno KZ"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_outputs"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_outputs" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_rameno_kv"
+
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rameno KV"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_rameno_kz"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_rameno_kz" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_odfuk"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Odfuk"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_rameno_kv"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_rameno_kv" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_prisavka"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prísavka"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_odfuk"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_odfuk" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_manual_rameno"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_manual"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_prisavka"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_prisavka" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_auto_rameno"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_automatic"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_manual_rameno"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_manual_rameno" />
+
+    <TextView
+        android:id="@+id/tv_rameno_out_polo_automaticky_rameno"
+
+        style="@style/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mode_semi_automatic"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_auto_rameno"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rameno_out_auto_rameno" />
+
+
+    <Button
+        android:id="@+id/btn_animate_show"
+        style="@style/btn_detail"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/baseline_play_arrow_24"
+        android:drawableTint="?attr/colorOnPrimary"
+        android:text="@string/action_show"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_arm"
+        android:layout_width="192dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/draha"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_center_circle"
+        app:layout_constraintStart_toStartOf="@+id/iv_center_circle"
+        app:layout_constraintTop_toTopOf="@+id/iv_center_circle" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_puk"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/puk"
+        app:layout_constraintEnd_toEndOf="@+id/iv_rameno_arm"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_rameno_arm" />
+
+    <ImageView
+        android:id="@+id/iv_center_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="@dimen/margin_extra_super_large"
+        android:src="@drawable/kruh_rameno"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_rameno_prisavka"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm.output.suction"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_out_prisavka"
+        app:layout_constraintStart_toStartOf="@+id/btn_rameno_odfuk"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_out_prisavka" />
+
+    <View
+        android:id="@+id/view_divider_after_ios"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_rameno_out_polo_automaticky_rameno" />
+
+    <Button
+        android:id="@+id/btn_stop_rameno"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:text="@string/action_stop"
+        app:layout_constraintStart_toEndOf="@+id/btn_start_rameno"
+        app:layout_constraintTop_toTopOf="@+id/btn_start_rameno" />
+
+    <Button
+        android:id="@+id/btn_start_rameno"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/action_start"
+        app:layout_constraintStart_toEndOf="@+id/sw_read_rameno"
+        app:layout_constraintTop_toTopOf="@+id/sw_read_rameno" />
+
+    <Button
+        android:id="@+id/btn_rameno_kv"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm.output.arm_to_elevator"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_out_rameno_kv"
+        app:layout_constraintStart_toStartOf="@+id/btn_rameno_kz"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_out_rameno_kv"
+        app:layout_constraintVertical_bias="0.526" />
+
+    <Button
+        android:id="@+id/btn_rameno_kz"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:text="@string/arm.output.arm_to_buffer"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_out_rameno_kz"
+        app:layout_constraintStart_toStartOf="@+id/tv_rameno_out_rameno_kz"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_out_rameno_kz"
+        app:layout_constraintVertical_bias="0.473" />
+
+    <Button
+        android:id="@+id/btn_rameno_odfuk"
+        style="@style/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm.output.air_out"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rameno_out_odfuk"
+        app:layout_constraintStart_toStartOf="@+id/btn_rameno_kv"
+        app:layout_constraintTop_toTopOf="@+id/tv_rameno_out_odfuk"
+        app:layout_constraintVertical_bias="0.421" />
+
+    <!--TODO FINISH VYSTUPY-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

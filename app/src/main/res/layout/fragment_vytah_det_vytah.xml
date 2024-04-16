@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VytahDetVytahFragment">
+
+    <TextView
+        android:id="@+id/vytahNadpis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Detail Výťah"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAdresyVytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
+
+    <ImageView
+        android:id="@+id/imageViewVytahHore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="412dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+    <ImageView
+        android:id="@+id/imageViewVytahDole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="184dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/outputs"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/q_vytah_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_output_elevator_down" />
+
+        <TextView
+            android:id="@+id/q_vytah_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_output_elevator_up" />
+
+        <TextView
+            android:id="@+id/q_piest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_output_extruder" />
+
+        <TextView
+            android:id="@+id/q_manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/mode_manual" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/inputs"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/i_snimac_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_sensor_l" />
+
+        <TextView
+            android:id="@+id/i_snimac_p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_sensor_p" />
+
+        <TextView
+            android:id="@+id/i_rameno_pritomne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_arm_at_elev" />
+
+        <TextView
+            android:id="@+id/i_vytah_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_elevator_up" />
+
+        <TextView
+            android:id="@+id/i_vytah_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_elevator_down" />
+
+        <TextView
+            android:id="@+id/i_snimac_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_sensor_h" />
+
+        <TextView
+            android:id="@+id/i_piest_vysunuty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/elevator_input_extruder" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/errorTextVytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Errory"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switchReadVytah"
+        android:layout_width="166dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="Monitorovanie"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <Button
+        android:id="@+id/buttonVytahHore"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="@string/elevator_output_elevator_up"
+        app:layout_constraintBottom_toTopOf="@+id/buttonVytahDole"
+        app:layout_constraintEnd_toEndOf="@+id/buttonVytahDole" />
+
+    <Button
+        android:id="@+id/buttonVytahDole"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:text="@string/elevator_output_elevator_down"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_stop_vytah"
+        app:layout_constraintEnd_toStartOf="@+id/btn_stop_vytah" />
+
+
+    <Button
+        android:id="@+id/buttonAutoVytah"
+        android:layout_width="96dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="Auto"
+        app:layout_constraintBottom_toTopOf="@+id/buttonManualVytah"
+        app:layout_constraintEnd_toEndOf="@+id/buttonManualVytah" />
+
+    <Button
+        android:id="@+id/buttonManualVytah"
+        android:layout_width="96dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:text="Manual"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonVytahDole"
+        app:layout_constraintEnd_toStartOf="@+id/buttonVytahDole" />
+
+    <ImageView
+        android:id="@+id/iw_snimac_hore"
+        android:layout_width="132dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="320dp"
+        android:rotation="-90"
+        android:src="@drawable/piestvysun"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAutoVytah"
+        app:layout_constraintEnd_toEndOf="@+id/imageSuciastka"
+        app:layout_constraintStart_toStartOf="@+id/imageSuciastka" />
+
+    <ImageView
+        android:id="@+id/imageSuciastka"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="100dp"
+        android:src="@drawable/puk"
+        app:layout_constraintEnd_toEndOf="@+id/imagePiest"
+        app:layout_constraintTop_toTopOf="@+id/imagePiest" />
+
+    <ImageView
+        android:id="@+id/imageViewSnimacL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonVytahHore"
+        app:layout_constraintStart_toStartOf="@+id/imageSuciastka"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+    <ImageView
+        android:id="@+id/imageViewSnimacP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSnimacL"
+        app:layout_constraintStart_toEndOf="@+id/imageViewSnimacL"
+        app:layout_constraintTop_toTopOf="@+id/imageViewSnimacL"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_circle_24" />
+
+
+    <ImageView
+        android:id="@+id/imagePiest"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:src="@drawable/piestik"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start_vytah"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewVytahDole" />
+
+    <Button
+        android:id="@+id/btn_start_vytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="@string/action_start"
+        app:layout_constraintBottom_toTopOf="@+id/btn_stop_vytah"
+        app:layout_constraintEnd_toEndOf="@+id/btn_stop_vytah" />
+
+    <Button
+        android:id="@+id/btn_stop_vytah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/action_stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
