@@ -535,6 +535,9 @@ public class S7Client
     {
         ConnType=ConnectionType;
     }
+    public short getConnectionType() {
+        return ConnType;
+    }
       
     public int Connect() 
     {
