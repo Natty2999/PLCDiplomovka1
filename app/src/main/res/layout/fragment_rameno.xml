@@ -239,35 +239,78 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/iv_rameno_puk_zasobnik"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="48dp"
+        android:src="@drawable/puk"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_rameno_extruder"
+        app:layout_constraintEnd_toEndOf="@+id/iv_rameno_extruder"
+        app:layout_constraintTop_toTopOf="@+id/iv_rameno_extruder"
+        app:layout_constraintVertical_bias="0.35" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_buffer"
+        android:layout_width="104dp"
+        android:layout_height="126dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/buffer"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_extruder"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/piestvysun"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="108dp"
+        android:src="@drawable/piestik"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <ImageView
         android:id="@+id/iv_center_circle"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="124dp"
         android:src="@drawable/kruh_rameno"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_rameno_puk"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/puk"
-        app:layout_constraintEnd_toEndOf="@+id/iv_rameno_arm"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_rameno_arm" />
 
     <ImageView
         android:id="@+id/iv_rameno_arm"
         android:layout_width="128dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="16dp"
         android:src="@drawable/draha"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/iv_center_circle" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_center_circle"
+        app:layout_constraintStart_toStartOf="@+id/iv_center_circle"
+        app:layout_constraintTop_toTopOf="@+id/iv_center_circle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/iv_rameno_puk"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/puk"
+        app:layout_constraintEnd_toEndOf="@+id/iv_rameno_arm"
+        app:layout_constraintHorizontal_bias="0.982"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_rameno_arm" />
 
     <Button
         android:id="@+id/btn_stop_rameno"
