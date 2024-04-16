@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,7 @@ import Moka7.S7;
 import Moka7.S7Client;
 
 public class RamenoFragment extends Fragment {
+    //region declarations
     private int casovac_interval = 100;
     private int casovac_time = 120000;
     private int anim_called =0;
@@ -58,6 +60,8 @@ public class RamenoFragment extends Fragment {
     private TextView tv_nadpis_rameno;
     private ImageView iv_rameno_arm;
     private ImageView iv_rameno_puk;
+    private ImageView iv_rameno_puk_zasobnik;
+    private ImageView iv_rameno_extruder;
     private ImageView iv_center_circle;
     private boolean animateToZasobnikBuffer = false;
     private boolean animateToVytahBuffer = false;
@@ -99,6 +103,7 @@ public class RamenoFragment extends Fragment {
     private Integer snimacSucNaVDBOffset;
     private Integer snimacRVytahDoleDBOffset;
     //bit
+
     private Integer snimacPrisiatyDBBit;
     private Integer snimacDomPolohaDBBit;
     private Integer snimacVysExtruderDBBit;
@@ -181,13 +186,16 @@ public class RamenoFragment extends Fragment {
     private static final String VYSTUP_AUTO_RAMENO_DBBIT = "vystupAutoRamenoDBBit";
     private static final String VYSTUP_POLO_AUTOMATICKY_RAMENO_DBBIT = "vystupPoloAutomatickyRamenoDBBit";
     private static final String VYSTUP_START_STOP_RAMENO_DBBIT = "vystupStartStopRamenoDBBit";
-
+    //endregion
+    boolean jeVytahDole = false;
+    boolean jeNaVytahuSuciastka = false;
+    boolean jePrisiaty = false;
 
     public RamenoFragment() {
         // Required empty public constructor
     }
-    S7Client client = new S7Client();
 
+    S7Client client = new S7Client();
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
     @Override
@@ -203,6 +211,13 @@ public class RamenoFragment extends Fragment {
             if (bottomNavigationView != null && bottomNavigationView.getSelectedItemId() != R.id.nav_rameno){
                 bottomNavigationView.setSelectedItemId(R.id.nav_rameno);
             }
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (switchReadRameno.isChecked()) {
+            switchReadRameno.setChecked(false);
         }
     }
     @Override
@@ -263,6 +278,8 @@ public class RamenoFragment extends Fragment {
         );
         iv_rameno_arm = view.findViewById(R.id.iv_rameno_arm);
         iv_rameno_puk = view.findViewById(R.id.iv_rameno_puk);
+        iv_rameno_puk_zasobnik = view.findViewById(R.id.iv_rameno_puk_zasobnik);
+        iv_rameno_extruder = view.findViewById(R.id.iv_rameno_extruder);
         iv_center_circle = view.findViewById(R.id.iv_center_circle);
         buttonAnimateShow= view.findViewById(R.id.btn_animate_show);
         loadData();
@@ -273,6 +290,14 @@ public class RamenoFragment extends Fragment {
          * Ak je vypnutý, zruší sa časovač.
          */
         switchReadRameno.setOnCheckedChangeListener((v, event) -> {
+
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).hideMenu();
+                    }
+                }
+            }
                 if (switchReadRameno.isChecked()) {
                     startCountdown();
                 } else {
@@ -285,34 +310,81 @@ public class RamenoFragment extends Fragment {
         animToVytahInProgress = false;
 
         btn_start_rameno.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupStartStopRamenoDBOffset, vystupStartStopRamenoDBBit, true);//start rameno
             ReadPlc();
         });
         btn_stop_rameno.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupStartStopRamenoDBOffset, vystupStartStopRamenoDBBit, false);//stop rameno
             ReadPlc();
         });
         btn_rameno_kz.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             if(IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKvDBOffset, vystupRamenoKvDBBit, false) == 0){
                 IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKzDBOffset, vystupRamenoKzDBBit);//rameno kz
             }//rameno kz
         });
         btn_rameno_kv.setOnClickListener(v -> {
-            if(IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKzDBOffset, vystupRamenoKzDBBit, false) == 0){
-                IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKvDBOffset, vystupRamenoKvDBBit);//rameno kv
-            }//rameno kv
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
+            String dovody = "";
+            if ((jeVytahDole && !jeNaVytahuSuciastka )||(jeVytahDole && !jePrisiaty)){
+                if(IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKzDBOffset, vystupRamenoKzDBBit, false) == 0){
+                    IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupRamenoKvDBOffset, vystupRamenoKvDBBit);//rameno kv
+                }//rameno kv
+                }else {
+                if (!jeVytahDole){
+                    dovody += "Výťah nie je v dolnej polohe.\n";
+                }
+                if (jeNaVytahuSuciastka && jePrisiaty){
+                    dovody += "Na výťahu sa už nachádza súčiastka.\n";
+                }
+                Snackbar.make(v, "Nie je možné vykonať pohyb ramena k výťahu. Dôvody:\n"+dovody, Snackbar.LENGTH_SHORT).show();
+            }
+
         });
 
         btn_rameno_extruder.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupExtruderDBOffset, vystupExtruderDBBit);//extruder
         });
         btn_rameno_odfuk.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
            if (IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupPrisavkaDBOffset, vystupPrisavkaDBBit, false) == 0){//prisavka
                IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupOdfukDBOffset, vystupOdfukDBBit);//odfuk
            }
 
         });
         btn_rameno_prisavka.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             if (IOMethods.WritePlc(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupOdfukDBOffset, vystupOdfukDBBit, false) == 0){
                 IOMethods.ToggleWriteBit(errorText,client,handler,executorService,ramenoIPAdresa, Integer.parseInt(snimace_DBNumber), vystupPrisavkaDBOffset, vystupPrisavkaDBBit);//prisavka
             }//odfuk
@@ -322,6 +394,11 @@ public class RamenoFragment extends Fragment {
          * Metóda buttonAnimateShow.setOnClickListener slúži na zobrazenie alebo skrytie všetkých textových polí, ktoré sú v liste textViews.
          */
         buttonAnimateShow.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).bottomNavigationView.getVisibility() == View.VISIBLE){
+                    ((MainActivity) getActivity()).hideMenu();
+                }
+            }
             if (textViews.get(0).getVisibility() == View.VISIBLE) {
                 buttonAnimateShow.setText(R.string.action_show);
                 buttonAnimateShow.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_minimize_24, 0);
@@ -452,8 +529,6 @@ public class RamenoFragment extends Fragment {
         btn_rameno_prisavka.setBackgroundColor(falseRed);
         btn_start_rameno.setBackgroundColor(falseRed);
         btn_stop_rameno.setBackgroundColor(falseRed);
-
-
     }
     /**
      * Metóda animatePuk slúži na animáciu pohybu puku v PLC.
@@ -519,10 +594,10 @@ public class RamenoFragment extends Fragment {
             @Override
             public void onAnimationStart(android.animation.Animator animation) {
                 if (endAngle == 180) {
-                    iv_rameno_puk.setColorFilter(ContextCompat.getColor(requireContext(), R.color.trueGreen));
+                    //iv_rameno_puk.setColorFilter(ContextCompat.getColor(requireContext(), R.color.trueGreen));
                     iv_rameno_puk.setRotation(0);
                 }else {
-                    iv_rameno_puk.setColorFilter(ContextCompat.getColor(requireContext(), R.color.falseRed));
+                    //iv_rameno_puk.setColorFilter(ContextCompat.getColor(requireContext(), R.color.falseRed));
                     iv_rameno_puk.setRotation(180);
                 }
             }
@@ -631,6 +706,9 @@ public class RamenoFragment extends Fragment {
                     tv_rameno_out_auto_rameno.setTextColor(dataBools[vystupAutoRamenoDBOffset][vystupAutoRamenoDBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
                     tv_rameno_out_polo_automaticky_rameno.setTextColor(dataBools[vystupPoloAutomatickyRamenoDBOffset][vystupPoloAutomatickyRamenoDBBit] ? getResources().getColor(R.color.trueGreen, requireActivity().getTheme()) : getResources().getColor(R.color.falseRed, requireActivity().getTheme()));
 
+                    jePrisiaty = dataBools[snimacPrisiatyDBOffset][snimacPrisiatyDBBit];
+                    jeNaVytahuSuciastka = dataBools[snimacSucNaVDBOffset][snimacSucNaVDBBit];
+                    jeVytahDole = dataBools[snimacRVytahDoleDBOffset][snimacRVytahDoleDBBit];
 
                     boolean jeVoStope = dataBools[vystupStartStopRamenoDBOffset][vystupStartStopRamenoDBBit];
 
@@ -661,8 +739,24 @@ public class RamenoFragment extends Fragment {
                     btn_rameno_prisavka.setEnabled(!jeVoStope);
 
 
-
-
+                    //if prisiate show puck else hide puck
+                    if (dataBools[snimacPrisiatyDBOffset][snimacPrisiatyDBBit]){
+                        iv_rameno_puk.setVisibility(View.VISIBLE);
+                    }else {
+                        iv_rameno_puk.setVisibility(View.GONE);
+                    }
+                    iv_rameno_puk_zasobnik.setVisibility(dataBools[snimacPrazdnyZasobnikDBOffset][snimacPrazdnyZasobnikDBBit] ? View.INVISIBLE : View.VISIBLE);
+                    if (dataBools[vystupExtruderDBOffset][vystupExtruderDBBit]) {
+                        if (anim_called == 0) {
+                            animatePiest(64, 400);
+                            anim_called = 1;
+                        }
+                    } else {
+                        if (anim_called == 1) {
+                            animatePiest(0, 400);
+                            anim_called = 0;
+                        }
+                    }
 
 
 
@@ -696,6 +790,29 @@ public class RamenoFragment extends Fragment {
                 }
             });
         });
+    }
+    private void animatePiest(int positionToDp, int duration){
+        float density = getResources().getDisplayMetrics().density;
+        int positionTo = Math.round(positionToDp * density);
+        // Get the current layout parameters
+        final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) iv_rameno_extruder.getLayoutParams();
+        // if positionTo is already set then return
+        if(params.getMarginEnd() == positionTo){
+            return;
+        }
+        // Create a ValueAnimator that animates from the current end margin to 0
+        ValueAnimator animator = ValueAnimator.ofInt(params.getMarginEnd(), positionTo);
+        animator.addUpdateListener(animation -> {
+            // Update the end margin in the layout parameters
+            params.setMarginEnd((Integer) animation.getAnimatedValue());
+            iv_rameno_extruder.setLayoutParams(params);
+            iv_rameno_extruder.getParent().requestLayout();
+        });
+        // Set the duration of the animation
+        animator.setDuration(duration);
+
+        // Start the animation
+        animator.start();
     }
 
 }
