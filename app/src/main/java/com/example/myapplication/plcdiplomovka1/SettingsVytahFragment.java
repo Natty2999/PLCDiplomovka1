@@ -30,7 +30,6 @@ public class SettingsVytahFragment extends Fragment {
     //text inputy
     private TextInputEditText vytahIPAdresa;
     private TextInputEditText snimace_DBNumber;
-    //TODO pridat rameno cez Q137.... do programu Tiaportalu aby vedel vytah ci moze ist hore
     //input Ofsets
     private TextInputEditText snimac_L_DBOffset;
     private TextInputEditText snimac_P_DBOffset;
@@ -290,7 +289,7 @@ public class SettingsVytahFragment extends Fragment {
         });
 
         FloatingActionButton saveButton = view.findViewById(R.id.ab_save_vytah);
-        saveButton.setOnClickListener(v -> CheckValidityAndSave(textInputEditTextsOffsets,textInputEditTextsBits,textInputEditTextsAll));
+        saveButton.setOnClickListener(v -> checkValidityAndSave(textInputEditTextsOffsets,textInputEditTextsBits,textInputEditTextsAll));
 
         loadData();
         //updateViews();
@@ -317,14 +316,15 @@ public class SettingsVytahFragment extends Fragment {
      * @param textInputEditTextsBits Zoznam TextInputEditTextov, ktoré obsahujú hodnoty bitov.
      * @param textInputEditTextsAll Zoznam všetkých TextInputEditTextov.
      */
-    public void CheckValidityAndSave(List<TextInputEditText> textInputEditTextsOffsets,List<TextInputEditText> textInputEditTextsBits, List<TextInputEditText>textInputEditTextsAll){
+    public void checkValidityAndSave(List<TextInputEditText> textInputEditTextsOffsets, List<TextInputEditText> textInputEditTextsBits, List<TextInputEditText>textInputEditTextsAll){
 
         //uloz do sharedpreferences
         String ipAdresaVytah = Objects.requireNonNull(vytahIPAdresa.getText()).toString();
         String snimace_DBNumberStr = Objects.requireNonNull(snimace_DBNumber.getText()).toString();
         //skontroluj ci je v tvare IP adresy
         boolean isIP = ipAdresaVytah.matches("(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
-        boolean isDBNumber = snimace_DBNumberStr.matches("\\d{1,3}");
+        String regex = "^[1-9][0-9]{0,2}$";
+        boolean isDBNumber = snimace_DBNumberStr.matches(regex);
         boolean isEmpty = false;
         boolean isWrongOffset = false;
         boolean isWrongBit = false;
@@ -332,8 +332,10 @@ public class SettingsVytahFragment extends Fragment {
 
         //skontroluj ci su vsetky offsety v spravnom formate
         for(TextInputEditText textInputEditText : textInputEditTextsOffsets){
-            if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches("^(?:25[0-5]|2[0-4][0-9]|[1]?[0-9]{1,2})$")){
-                textInputEditText.setError("Zlý formát Offsetu. 0-255");
+            //regex pre offsety 0-65535
+            regex = "^([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
+            if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches(regex)){
+                textInputEditText.setError("Zlý formát Offsetu. 0-65535");
                 isWrongOffset = true;
             }
         }
@@ -360,7 +362,7 @@ public class SettingsVytahFragment extends Fragment {
         }else if (isWrongBit) {
             Toast.makeText(getActivity(), "Zadajte správny formát Bitu.", Toast.LENGTH_SHORT).show();
         } else if (!isDBNumber) {
-            snimace_DBNumber.setError("Zadajte správny formát čisla DB. 0-255");
+            snimace_DBNumber.setError("Zadajte správny formát čisla DB. 0-999");
             Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
         }else {
             saveData();

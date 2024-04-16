@@ -349,14 +349,16 @@ public class SettingsRamenoFragment extends Fragment {
 
             //regex
             boolean isIP = ipAdresaRameno.matches("(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
-            boolean isDBNumber = snimaceDBNumberRameno.matches("\\d{1,3}");
+            String regex = "^[1-9][0-9]{0,2}$";
+            boolean isDBNumber = snimaceDBNumberRameno.matches(regex);
             boolean isEmpty = false;
             boolean isWrongOffset = false;
             boolean isWrongBit = false;
 
             //skontroluj ci su vsetky offsety v spravnom formate
             for(TextInputEditText textInputEditText : textInputEditTextsOffsets){
-                if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches("^(?:25[0-5]|2[0-4][0-9]|[1]?[0-9]{1,2})$")){
+                regex = "^([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
+                if(!Objects.requireNonNull(textInputEditText.getText()).toString().matches(regex)){
                     textInputEditText.setError("Zlý formát Offsetu. 0-255");
                     isWrongOffset = true;
                 }
@@ -374,8 +376,8 @@ public class SettingsRamenoFragment extends Fragment {
                     isEmpty = true;
                 }
             }
-            //regex for 0-255
-            String regex = "^(?:25[0-5]|2[0-4][0-9]|[1]?[0-9]{1,2})$";
+
+
             if (isEmpty){
                 Toast.makeText(getActivity(), "Niektoré z polí je prázdne.", Toast.LENGTH_SHORT).show();
             } else if (!isIP) {
@@ -386,7 +388,7 @@ public class SettingsRamenoFragment extends Fragment {
             }else if (isWrongBit) {
                 Toast.makeText(getActivity(), "Zadajte správny formát Bitu.", Toast.LENGTH_SHORT).show();
             } else if (!isDBNumber) {
-                et_snimace_db_number_rameno.setError("Zadajte správny formát čisla DB. 0-255");
+                et_snimace_db_number_rameno.setError("Zadajte správny formát čisla DB. 0-999");
                 Toast.makeText(getActivity(), "Zadajte správny formát.", Toast.LENGTH_SHORT).show();
             } else {
                 saveData();
