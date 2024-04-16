@@ -1,8 +1,10 @@
 package com.example.myapplication.plcdiplomovka1;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.google.android.material.materialswitch.MaterialSwitch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import Moka7.S7;
 import Moka7.S7Client;
-
+//TODO PlcWriteRequest class pre zjednodušenie prenosu parametrov do WritePlc a ToggleWriteBit
 public class IOMethods {
     /**
      * Metóda ToggleWriteBit slúži na zmenu hodnoty bitu v PLC. Na rozdiel od {@link #WritePlc(TextView,S7Client, Handler, ExecutorService, String, int, int, int, boolean)},
@@ -34,30 +36,25 @@ public class IOMethods {
             try{
                 client.SetConnectionType(S7.S7_BASIC);
                 int res = client.ConnectTo(ipAdresa,0,2);
-                System.out.println("Connect to: " + ipAdresa);
-                System.out.println("DBNumber: " + dbNumber);
-                System.out.println("DBOffset: " + dbOffset);
-                System.out.println("Bit: " + dbBit);
-                System.out.println("Res: " + res);
                 if(res == 0){
-                    ret.set("Connection OK");
+                    ret.set("Pripojenie OK");
                     res = client.ReadArea(S7.S7AreaDB, dbNumber,dbOffset,1,data);
                     if(res == 0){
-                        ret.set("Read OK");
+                        ret.set("Prečítanie OK");
                         bitValue.set(S7.GetBitAt(data,0,dbBit));
-                        System.out.println("Bit value: " + bitValue.get());
+                        //System.out.println("Bit value: " + bitValue.get());
                         S7.SetBitAt(data,0,dbBit,!bitValue.get());    // Toggle the bit
                         res = client.WriteArea(S7.S7AreaDB, dbNumber,dbOffset,data.length,data);
                         if(res == 0){
-                            ret.set("Write OK");
+                            ret.set("Zapísanie OK");
                         }else {
-                            ret.set("Write Error: " + S7Client.ErrorText(res));
+                            ret.set("Error Zapisovania: " + S7Client.ErrorText(res));
                         }
                     }else {
-                        ret.set("Read Error: " + S7Client.ErrorText(res));
+                        ret.set("Error Čítania: " + S7Client.ErrorText(res));
                     }
                 }else{
-                    ret.set("Connection Error: " + S7Client.ErrorText(res));
+                    ret.set("Error Pripojenia: " + S7Client.ErrorText(res));
                 }
 
                 client.Disconnect();
@@ -79,7 +76,7 @@ public class IOMethods {
             }
         });
 
-        return !ret.toString().toLowerCase().contains("error"); // if true then no error occured
+        return !ret.toString().toLowerCase().contains("error"); // ak true tak nenastal error
     }
     /**
      * Metóda WritePlc slúži na zápis hodnoty bitu v PLC. Na rozdiel od {@link #ToggleWriteBit(TextView,S7Client,Handler,ExecutorService,String, int, int, int)},
@@ -98,16 +95,19 @@ public class IOMethods {
     public static int WritePlc(TextView errorText, S7Client client, Handler handler, ExecutorService executorService, String ipAdresa, int dbNumber, int dbOffset, int dbBit, boolean writeValue){
         AtomicReference<String> ret = new AtomicReference<>("Not called");
         AtomicInteger returnValue = new AtomicInteger();
-        System.out.println("WritePlc called");
-        System.out.println("ipAdresa: " + ipAdresa);
-        System.out.println("dbNumber: " + dbNumber);
-        System.out.println("dbOffset: " + dbOffset);
-        System.out.println("dbBit: " + dbBit);
-        System.out.println("writeValue: " + writeValue);
-        System.out.println("Start writePlc");
         executorService.execute(() -> {
-            client.SetConnectionType(S7.S7_BASIC);
-            int res = client.ConnectTo(ipAdresa,0,2);// ak je S7-300 tak je vždy 0,2
+            if (client.getConnectionType() != S7.S7_BASIC){
+                client.SetConnectionType(S7.S7_BASIC);
+            }
+            int res = 1;
+            if (!client.Connected){
+                System.out.println("Nepripojený");
+                 res = client.ConnectTo(ipAdresa,0,2);// ak je S7-300 tak je vždy 0,2
+            }else{
+                System.out.println("Pripojený");
+                res = 0;
+            }
+
             if(res ==0){
                 byte[] data = new byte[1];
                 res = client.ReadArea(S7.S7AreaDB,dbNumber,dbOffset,1,data);
@@ -129,7 +129,9 @@ public class IOMethods {
                 returnValue.set(1);
                 ret.set("Error: " + S7Client.ErrorText(res));
             }
-            client.Disconnect();
+            if (client.Connected){
+                client.Disconnect();
+            }
             System.out.println("End writePlc");
             handler.post(() -> {
                 System.out.println("Handler post");
@@ -143,5 +145,92 @@ public class IOMethods {
             });
         });
         return returnValue.get();
+    }
+
+    public static class CountdownRequest {
+        private int timerDuration;
+        private int timerInterval;
+        private int counterIn;
+        private CountDownTimer countDownTimer;
+        private MaterialSwitch switchRead;
+        private Runnable action;
+
+        public int getTimerDuration() {
+            return timerDuration;
+        }
+        public int getTimerInterval() {
+            return timerInterval;
+        }
+        public int getCounterIn() {
+            return counterIn;
+        }
+        public CountDownTimer getCountDownTimer() {
+            return countDownTimer;
+        }
+        public MaterialSwitch getSwitchRead() {
+            return switchRead;
+        }
+        public Runnable getAction() {
+            return action;
+        }
+
+        public void setTimerDuration(int timerDuration) {
+            this.timerDuration = timerDuration;
+        }
+        public void setTimerInterval(int timerInterval) {
+            this.timerInterval = timerInterval;
+        }
+        public void setCounterIn(int counterIn) {
+            this.counterIn = counterIn;
+        }
+        public void setCountDownTimer(CountDownTimer countDownTimer) {
+            this.countDownTimer = countDownTimer;
+        }
+        public void setSwitchRead(MaterialSwitch switchRead) {
+            this.switchRead = switchRead;
+        }
+        public void setAction(Runnable action) {
+            this.action = action;
+        }
+
+        public CountdownRequest(int timerDuration, int timerInterval, int counterIn, CountDownTimer countDownTimer, MaterialSwitch switchRead, Runnable action) {
+            this.timerDuration = timerDuration;
+            this.timerInterval = timerInterval;
+            this.counterIn = counterIn;
+            this.countDownTimer = countDownTimer;
+            this.switchRead = switchRead;
+            this.action = action;
+        }
+    }
+    public static CountDownTimer startCountdown(CountdownRequest request){
+        int casovac_time = request.getTimerDuration();
+        int casovac_interval = request.getTimerInterval();
+        int counterIn = request.getCounterIn();
+        CountDownTimer countDownTimer = request.getCountDownTimer();
+        MaterialSwitch switchRead = request.getSwitchRead();
+        Runnable action = request.getAction();
+
+        cancelCountdown(countDownTimer); // Zruší existujúci časovač
+        countDownTimer = new CountDownTimer(casovac_time, casovac_interval) {
+            private int counter = counterIn;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //Aktualizuje UI s aktuálnym počtom.
+                action.run();
+                counter--;
+            }
+            @Override
+            public void onFinish() {
+                counter = (int) Math.floor((double)casovac_time / casovac_interval); // Reset counter
+                switchRead.setChecked(false); // Vypni prepínač po skončení odpočítavania
+            }
+        };
+        countDownTimer.start();
+        return countDownTimer;
+    }
+    public static void cancelCountdown(CountDownTimer countDownTimer){
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }
