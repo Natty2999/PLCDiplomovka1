@@ -3,6 +3,7 @@
     <color name="falseRed">#B52A2A</color>
     <color name="trueGreen">#28B81D</color>
     <color name="material_button_background_disabled">@color/material_on_background_disabled</color>
-    <color name="material_button_background">?attr/colorButtonNormal</color>
+    <color name="material_dark">@color/material_dynamic_primary30</color>
+
 
 </resources>
