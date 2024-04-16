@@ -23,17 +23,6 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">
 
-            <TextView android:id="@+id/tv_rameno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/menu_arm"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView android:id="@+id/tv_ip_adresa_rameno"
 
                 android:layout_width="100dp"
@@ -45,14 +34,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/til_ip_adresa_rameno"
                 app:layout_constraintVertical_bias="0.25" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_ip_adresa_rameno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/tv_ip_adresa_rameno"
-                app:layout_constraintTop_toBottomOf="@+id/tv_rameno">
+                tools:layout_editor_absoluteY="49dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_ip_adresa_rameno"
@@ -831,15 +820,16 @@ style="@style/et_bit" />
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="64dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_auto_rameno"
                     app:layout_constraintTop_toBottomOf="@+id/til_vystup_polo_automaticky_rameno_dboffset">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_vystup_start_rameno_dboffset"
-                        android:layout_width="110dp"
-                        android:layout_height="55dp"
                         style="@style/et_byte"
-                        />
+                        android:layout_width="110dp"
+                        android:layout_height="55dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
